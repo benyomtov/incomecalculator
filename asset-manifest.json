@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.css": "/incomecalculator/static/css/main.31d6cfe0.css",
+    "main.js": "/incomecalculator/static/js/main.2802c1af.js",
+    "index.html": "/incomecalculator/index.html",
+    "main.2802c1af.js.map": "/incomecalculator/static/js/main.2802c1af.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.31d6cfe0.css",
+    "static/js/main.2802c1af.js"
+  ]
+}
