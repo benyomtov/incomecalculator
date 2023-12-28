@@ -64,7 +64,7 @@ const SelfEmployed = () => {
                     <p>Eligibility: {result.eligibility}</p>
                 </div>
             )}
-
+            <Link to="/childsupport" >Child Support Calculator</Link>
             <Link to="/" >Back</Link>
 
         </div>
