@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
 import './SelfEmployed.css';
 
 const SelfEmployed = () => {
@@ -57,6 +58,12 @@ const SelfEmployed = () => {
         }
     };
 
+    const clearIncome = () => {
+        localStorage.removeItem('annualIncome');
+        setGrossIncome('');
+        setResult(null);
+      };
+
     return (
         <div className="selfemployed">
         <div className="selfemployed__content">
@@ -78,11 +85,16 @@ const SelfEmployed = () => {
                     <p>Hourly Wage: ${result.calculatedHourlyWage}</p>
                     <p>Eligibility: {result.eligibility}</p>
                     <button onClick={handleSaveandContinue}>Save and Continue</button>
+                    <button onClick={clearIncome}>Clear Income</button>
                 </div>
             )}
             <Link to="/" >Back</Link>
+            <Link to="/csquestion" >Next</Link>
+            <Link to="/eligibility">Eligibility</Link>
 
         </div>
+
+        <DisplayIncomes />
         </div>
     );
     }

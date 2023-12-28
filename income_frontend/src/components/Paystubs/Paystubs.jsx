@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
 import './Paystubs.css';
 
 const Paystubs = () => {
@@ -130,6 +131,15 @@ const Paystubs = () => {
         }
     };
 
+    const clearIncome = () => {
+        localStorage.removeItem('annualIncome');
+        setGrossIncomes(Array(1).fill(''));
+        setNumOtherIncomes(0);
+        setOtherIncomes(Array(0).fill(''));
+        setPayFrequency('monthly');
+        setResult(null);
+      };
+
     return (
         <div className="paystubs">
         <div className="paystubs__content">
@@ -204,6 +214,7 @@ const Paystubs = () => {
                     </p>
                    
                     <button onClick={handleSaveandContinue}>Save and Continue</button>
+                    <button onClick={clearIncome}>Clear Income</button>
                 </div>
 
                 
@@ -212,8 +223,12 @@ const Paystubs = () => {
             
 
             <Link to="/" >Back</Link>
+            <Link to="/csquestion" >Next</Link>
+            <Link to="/eligibility">Eligibility</Link>
 
         </div>
+
+        <DisplayIncomes />
         </div>
     );
     }

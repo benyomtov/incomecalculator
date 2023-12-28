@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
 
 const OtherIncomes = () => {
   const navigate = useNavigate();
@@ -36,6 +37,16 @@ const OtherIncomes = () => {
     }
   };
 
+  const handleClearAndReset = () => {
+    // Clear otherIncome from localStorage
+    localStorage.removeItem('otherIncome');
+
+    // Reset component state
+    setIncomeInputs([0]);
+    setTotalIncome(null);
+  };
+
+
   return (
     <div>
       <h1>Other Annual Incomes</h1>
@@ -67,7 +78,12 @@ const OtherIncomes = () => {
           <button onClick={handleSaveAndContinue}>Save and Continue</button>
         </div>
       )}
+        <button onClick={handleClearAndReset}>Clear Other Income</button>
         <Link to="/ssdquestion">Back</Link>
+        <Link to="/eligibility">Skip</Link>
+
+        <DisplayIncomes />
+
     </div>
   );
 };

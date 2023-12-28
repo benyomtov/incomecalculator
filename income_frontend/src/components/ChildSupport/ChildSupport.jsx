@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
 import './ChildSupport.css';
 
 const ChildSupport = () => {
@@ -115,6 +116,11 @@ const ChildSupport = () => {
 
     };
 
+    const handleClearAndReset = () => {
+        setChildPayments([]);
+        setIsLumpSum([]);
+        setAnnualChildSupport(null);
+      };
 
     return (
       <div className="childsupport">
@@ -171,12 +177,17 @@ const ChildSupport = () => {
                             </strong>
                             <button className="childsupport__button" onClick={handleSaveandContinue}>Save and Continue</button>     
                     </p>
-
+                    <button className="childsupport__button" onClick={handleClearAndReset}>Clear Child Support</button>
                 </div>
             )}
 
-          <Link to="/">Back</Link>
+          <Link to="/csquestion">Back</Link>
+          <Link to="/ssdquestion">Next</Link>
+          <Link to="/">Home</Link>
+          <Link to="/eligibility">Eligibility</Link>
         </div>
+
+        <DisplayIncomes />
       </div>
     );
     }

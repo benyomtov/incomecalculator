@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
 import './UnofficialCS.css';
 
 const UnofficialCS = () => {
@@ -69,6 +70,16 @@ const UnofficialCS = () => {
     };
 
 
+    const handleClearAndReset = () => {
+        // Clear annualChildSupport in localStorage
+        localStorage.removeItem('annualChildSupport');
+        
+        // Reset component state
+        setChildSupportAmount('');
+        setAnnualChildSupport(null);
+      };
+
+
     return (
         <div className="unofficialCS">
             <div className="unofficialCS__content">
@@ -100,10 +111,15 @@ const UnofficialCS = () => {
                         Annual Child Support: <strong>${annualChildSupport}</strong>
                     </p>
                     <button onClick={handleSaveandContinue}>Save and Continue</button>
+                    <button onClick={handleClearAndReset}>Clear Child Support</button>
                     </div>
                 )}
                 <Link to="/">Back</Link>
+                <Link to="/ssdquestion">Next</Link>
+                <Link to="/eligibility">Eligibility</Link>
             </div>
+
+            <DisplayIncomes />
         </div>
     );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
 import './SSDQuestion.css';
 
 const SSDQuestion = () => {
@@ -43,6 +44,15 @@ const SSDQuestion = () => {
         }
     };
 
+    const handleClearAndReset = () => {
+        // Clear annualSSD from localStorage
+        localStorage.removeItem('annualSSD');
+
+        // Reset component state
+        setSSDAmount('');
+        setAnnualSSD(null);
+    };
+
     return (
         <div className="ssd-question">
             <h1>Social Security Disability</h1>
@@ -74,7 +84,12 @@ const SSDQuestion = () => {
                     <button onClick={handleSaveandContinue}>Save and Continue</button>
                 </div>
             )}
+            <button onClick={handleClearAndReset}>Clear SSD</button>
             <Link to="/csquestion">Back to Child Support</Link>
+            <Link to="/other">Next</Link>
+            <Link to="/eligibility">Eligibility</Link>
+
+            <DisplayIncomes />
         </div>
     );
 };

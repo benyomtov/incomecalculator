@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
 import './CSQuestion.css';
 
 const CSQuestion = () => {
@@ -51,8 +52,15 @@ const CSQuestion = () => {
           </div>
         )}
 
-        <Link to="/">Back</Link>
+        <Link to="/">Back to Homepage</Link>
+        <Link to="/paystubs">Paystub Calculator</Link>
+        <Link to="/selfemployed">Self-Employment Income Calculator</Link>
+        <Link to="/eligibility">Eligibility</Link>
+        
       </div>
+
+        <DisplayIncomes />
+        
     </div>
   );
 };
