@@ -7,6 +7,8 @@ import ChildSupport from './components/ChildSupport/ChildSupport';
 import Eligibility from './components/Eligibility/Eligibility';
 import CSQuestion from './components/CSQuestion/CSQuestion';
 import UnofficialCS from './components/UnofficialCS/UnofficialCS';
+import SSDQuestion from './components/SSDQuestion/SSDQuestion';
+import Other from './components/Other/Other';
 
 import './App.css';
 
@@ -22,6 +24,8 @@ function App() {
           <Route path="/eligibility" element={<Eligibility />} />
           <Route path="/csquestion" element={<CSQuestion />} />
           <Route path="/unofficialcs" element={<UnofficialCS />} />
+          <Route path="/ssdquestion" element={<SSDQuestion />} />
+          <Route path="/other" element={<Other />} />
         </Routes>
       </Router>
     </div>

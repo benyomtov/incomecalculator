@@ -203,10 +203,13 @@ const Paystubs = () => {
                         Annual Income Plus Other: <strong>{result.annualIncome}</strong>
                     </p>
                    
+                    <button onClick={handleSaveandContinue}>Save and Continue</button>
                 </div>
+
+                
             )}
 
-            <button onClick={handleSaveandContinue}>Save and Continue</button>
+            
 
             <Link to="/" >Back</Link>
 

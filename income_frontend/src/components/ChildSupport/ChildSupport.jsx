@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './ChildSupport.css';
 
 const ChildSupport = () => {
+
+    const navigate = useNavigate();
 
     const [childPayments, setChildPayments] = useState([]);
     const [numChildren, setNumChildren] = useState('one child');
@@ -52,40 +54,6 @@ const ChildSupport = () => {
 
 
         let totalChildPayments = 0;
-
-        // for (let i = 0; i < parsedChildPayments.length; i++) {
-
-        //     const isLumpSumPayment = isLumpSum[i];
-        //     const currentChildPayment = parsedChildPayments[i];
-
-        //     switch (numChildren) {
-        //         case 'one child':
-        //             if (isLumpSumPayment) {
-        //                 let childPaymentNotRounded = currentChildPayment * 0.3;
-        //                 let childPaymentRounded = Math.round(childPaymentNotRounded * 100) / 100;
-        //                 let childPayment = childPaymentRounded.toFixed(2);
-
-        //                 totalChildPayments += childPayment;
-        //             } else {
-        //                 totalChildPayments += currentChildPayment;
-        //             }
-        //             break;
-        //         case 'two children':
-        //             if (isLumpSumPayment) {
-        //                 let childPaymentNotRounded = currentChildPayment * 0.5;
-        //                 let childPaymentRounded = Math.round(childPaymentNotRounded * 100) / 100;
-        //                 let childPayment = childPaymentRounded.toFixed(2);
-
-        //                 totalChildPayments += childPayment;
-        //             } else {
-        //                 totalChildPayments += currentChildPayment;
-        //             }
-        //             break;
-        //         default:
-        //             setAnnualChildSupport(null);
-        //             return;
-        //     }
-        // }
 
         for (let i = 0; i < parsedChildPayments.length; i++) {
             const isLumpSumPayment = isLumpSum[i];
@@ -137,6 +105,14 @@ const ChildSupport = () => {
 
     const handleNumChildrenChange = (event) => {
         setNumChildren(event.target.value);
+    };
+
+    const handleSaveandContinue = () => {
+        if (annualChildSupport !== null) {
+            localStorage.setItem('annualChildSupport', annualChildSupport.annualChildSupport);
+            navigate('/ssdquestion');
+        }
+
     };
 
 
@@ -193,7 +169,7 @@ const ChildSupport = () => {
                             <strong>
                                 {annualChildSupport.annualChildSupport}
                             </strong>
-                            
+                            <button className="childsupport__button" onClick={handleSaveandContinue}>Save and Continue</button>     
                     </p>
 
                 </div>

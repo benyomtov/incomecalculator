@@ -4,7 +4,6 @@ import './CSQuestion.css';
 
 const CSQuestion = () => {
   const [receivesChildSupport, setReceivesChildSupport] = useState(null);
-  const [legalAgreement, setLegalAgreement] = useState(null);
   const navigate = useNavigate();
 
   const handleYesClick = () => {
@@ -44,13 +43,15 @@ const CSQuestion = () => {
         )}
 
         {/* Second question: If yes, is the child support through a legal agreement? */}
-        {receivesChildSupport && legalAgreement === null && (
+        {receivesChildSupport && (
           <div>
             <p>Is the child support through a legal agreement?</p>
             <button onClick={handleLegalAgreementClick}>Yes, it's a legal agreement</button>
             <button onClick={handleUnofficialAgreementClick}>No, it's an unofficial agreement</button>
           </div>
         )}
+
+        <Link to="/">Back</Link>
       </div>
     </div>
   );

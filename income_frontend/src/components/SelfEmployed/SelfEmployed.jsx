@@ -77,9 +77,9 @@ const SelfEmployed = () => {
                     <p>Net Income: ${result.calculatedNetIncome}</p>
                     <p>Hourly Wage: ${result.calculatedHourlyWage}</p>
                     <p>Eligibility: {result.eligibility}</p>
+                    <button onClick={handleSaveandContinue}>Save and Continue</button>
                 </div>
             )}
-            <button onClick={handleSaveandContinue}>Save and Continue</button>
             <Link to="/" >Back</Link>
 
         </div>
