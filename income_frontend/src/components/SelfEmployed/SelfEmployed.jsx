@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './SelfEmployed.css';
 
 const SelfEmployed = () => {
+
+    const navigate = useNavigate();
 
     const [grossIncome, setGrossIncome] = useState('');
     const [result, setResult] = useState(null);
@@ -27,19 +29,32 @@ const SelfEmployed = () => {
         }
 
         const calculatedDeductedIncome = grossIncome * 0.51;
-        const roundedDeductedIncome = calculatedDeductedIncome.toFixed(2);
-        const calculatedNetIncome = grossIncome - roundedDeductedIncome;
+        const partiallyRoundedDeductedIncome =  Math.round(calculatedDeductedIncome * 100) / 100;
+        const roundedDeductedIncome = partiallyRoundedDeductedIncome.toFixed(2);
+        const calculatedNetIncomeNotRounded = grossIncome - roundedDeductedIncome;
+        const calculatedNetIncomePartiallyRounded = Math.round(calculatedNetIncomeNotRounded * 100) / 100;
+        const calculatedNetIncome = calculatedNetIncomePartiallyRounded.toFixed(2);
 
         const weeklyNetIncome = calculatedNetIncome / 52;
-        const roundedWeeklyNetIncome = weeklyNetIncome.toFixed(2);
+        const partiallyRoundedWeeklyNetIncome = Math.round(weeklyNetIncome * 100) / 100;
+        const roundedWeeklyNetIncome = partiallyRoundedWeeklyNetIncome.toFixed(2);
 
         const hourlyWage = roundedWeeklyNetIncome / 30;
-        const roundedHourlyWage = hourlyWage.toFixed(2);
+        const partiallyRoundedHourlyWage = Math.round(hourlyWage * 100) / 100;
+        const roundedHourlyWage = partiallyRoundedHourlyWage.toFixed(2);
 
         setResult({
             calculatedNetIncome: calculatedNetIncome,
             calculatedHourlyWage: roundedHourlyWage,
             eligibility: roundedHourlyWage < 15.13 ? 'Not Eligible for CCAP' : 'Eligible for CCAP'});
+    };
+
+    const handleSaveandContinue = () => {
+        if (result && result.calculatedNetIncome) {
+            localStorage.setItem('annualIncome', result.calculatedNetIncome);
+
+            navigate('/csquestion');
+        }
     };
 
     return (
@@ -64,7 +79,7 @@ const SelfEmployed = () => {
                     <p>Eligibility: {result.eligibility}</p>
                 </div>
             )}
-            <Link to="/childsupport" >Child Support Calculator</Link>
+            <button onClick={handleSaveandContinue}>Save and Continue</button>
             <Link to="/" >Back</Link>
 
         </div>

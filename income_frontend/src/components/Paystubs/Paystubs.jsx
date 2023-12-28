@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './Paystubs.css';
 
 const Paystubs = () => {
+
+    const navigate = useNavigate();
 
     const [grossIncomes, setGrossIncomes] = useState(Array(1).fill(''));
     const [numOtherIncomes, setNumOtherIncomes] = useState(0);
@@ -120,6 +122,14 @@ const Paystubs = () => {
 
     };
 
+    const handleSaveandContinue = () => {
+        if (result && result.annualIncome) {
+            localStorage.setItem('annualIncome', result.annualIncome);
+
+            navigate('/csquestion');
+        }
+    };
+
     return (
         <div className="paystubs">
         <div className="paystubs__content">
@@ -195,6 +205,8 @@ const Paystubs = () => {
                    
                 </div>
             )}
+
+            <button onClick={handleSaveandContinue}>Save and Continue</button>
 
             <Link to="/" >Back</Link>
 
