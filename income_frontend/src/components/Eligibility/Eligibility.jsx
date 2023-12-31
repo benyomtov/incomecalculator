@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-const EligibilityCalculator = () => {
+const EligibilityCalculator = ({ calculatedIncome }) => {
   const [annualIncome, setAnnualIncome] = useState(
     parseFloat(localStorage.getItem('annualIncome')) || 0
   );
@@ -13,6 +13,13 @@ const EligibilityCalculator = () => {
   const [otherIncome, setOtherIncome] = useState(
     parseFloat(localStorage.getItem('otherIncome')) || 0
   );
+
+  useEffect(() => {
+    setAnnualIncome(calculatedIncome.primaryIncome);
+    setAnnualChildSupport(calculatedIncome.childSupport);
+    setAnnualSSD(calculatedIncome.ssd);
+    setOtherIncome(calculatedIncome.other);
+  }, [calculatedIncome]);
 
   const [typeOfApplication, setTypeOfApplication] = useState('Initial');
   const [familySize, setFamilySize] = useState(1);

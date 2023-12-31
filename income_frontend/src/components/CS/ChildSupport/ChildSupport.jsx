@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './ChildSupport.css';
 import { Link } from 'react-router-dom';
 
-const ChildSupport = () => {
+const ChildSupport = ({handleCalculatedIncome}) => {
 
     const [childPayments, setChildPayments] = useState([]);
     const [numChildren, setNumChildren] = useState('one child');
@@ -99,6 +99,8 @@ const ChildSupport = () => {
         setAnnualChildSupport({
             annualChildSupport,
         });
+
+        handleCalculatedIncome('childSupport', annualChildSupport);
         localStorage.setItem('annualChildSupport', annualChildSupport);
     };
 

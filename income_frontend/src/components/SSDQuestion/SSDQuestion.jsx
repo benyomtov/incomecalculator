@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './SSDQuestion.css';
 
-const SSDQuestion = () => {
+const SSDQuestion = ({handleCalculatedIncome}) => {
 
     const navigate = useNavigate();
 
@@ -35,6 +35,7 @@ const SSDQuestion = () => {
         const annualSSDAmountPartiallyRounded = Math.round(parsedSSDAmount * 12 *100) / 100;
         const annualSSDAmount = annualSSDAmountPartiallyRounded.toFixed(2);
         localStorage.setItem('annualSSD', annualSSDAmount);
+        handleCalculatedIncome('ssd', annualSSDAmount);
         setAnnualSSD(annualSSDAmount);
 
     }

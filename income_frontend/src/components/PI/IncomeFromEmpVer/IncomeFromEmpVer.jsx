@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const IncomeFromEmpVer = () => {
+const IncomeFromEmpVer = ({handleCalculatedIncome}) => {
   const [hourlyWage, setHourlyWage] = useState('');
   const [hoursPerWeek, setHoursPerWeek] = useState('');
   const [isSalaried, setIsSalaried] = useState(false);
@@ -18,6 +18,7 @@ const IncomeFromEmpVer = () => {
     }
 
     const roundedIncome = roundToNearestHundredth(income);
+    handleCalculatedIncome('primaryIncome', roundedIncome);
     setCalculatedIncome(roundedIncome);
 
     // Save to local storage

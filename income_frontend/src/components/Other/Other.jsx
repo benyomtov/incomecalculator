@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const OtherIncomes = () => {
+const OtherIncomes = ({handleCalculatedIncome}) => {
 
   const [incomeInputs, setIncomeInputs] = useState([0]);
   const [totalIncome, setTotalIncome] = useState(null);
@@ -24,7 +24,9 @@ const OtherIncomes = () => {
   const calculateTotalIncome = () => {
     const totalUnRounded = incomeInputs.reduce((acc, income) => acc + income, 0);
     const total = Math.round(totalUnRounded * 100) / 100;
+    const totalRounded = total.toFixed(2);
     localStorage.setItem('otherIncome', total.toFixed(2));
+    handleCalculatedIncome('other', (totalRounded));
     setTotalIncome(total.toFixed(2));
 
   };

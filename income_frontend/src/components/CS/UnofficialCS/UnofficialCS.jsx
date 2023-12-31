@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './UnofficialCS.css';
 
-const UnofficialCS = () => {
+const UnofficialCS = ({handleCalculatedIncome}) => {
 
     const [frequency, setFrequency] = useState('weekly');
     const [childSupportAmount, setChildSupportAmount] = useState('');
@@ -37,6 +37,7 @@ const UnofficialCS = () => {
                 const annualChildSupportPartiallyRounded = Math.round(annualChildSupportNotRounded * 100) / 100;
                 let annualChildSupport = annualChildSupportPartiallyRounded.toFixed(2);
                 setAnnualChildSupport(annualChildSupport);
+                handleCalculatedIncome(annualChildSupport);
                 localStorage.setItem('annualChildSupport', annualChildSupport);
                 break;
             case 'biweekly':
@@ -47,6 +48,7 @@ const UnofficialCS = () => {
                 const annualChildSupportPartiallyRounded2 = Math.round(annualChildSupportNotRounded2 * 100) / 100;
                 let annualChildSupport2 = annualChildSupportPartiallyRounded2.toFixed(2);
                 setAnnualChildSupport(annualChildSupport2);
+                handleCalculatedIncome(annualChildSupport2);
                 localStorage.setItem('annualChildSupport', annualChildSupport2);
                 break;
             case 'monthly':
@@ -54,6 +56,7 @@ const UnofficialCS = () => {
                 const monthlyChildSupportPartiallyRounded = Math.round(monthlyChildSupportNotRounded * 100) / 100;
                 let monthlyChildSupport = monthlyChildSupportPartiallyRounded.toFixed(2);
                 setAnnualChildSupport(monthlyChildSupport);
+                handleCalculatedIncome('childSupport', monthlyChildSupport);
                 localStorage.setItem('annualChildSupport', monthlyChildSupport);
                 break;
                 default:

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Paystubs.css';
 
-const Paystubs = () => {
+const Paystubs = ({handleCalculatedIncome}) => {
 
     const [grossIncomes, setGrossIncomes] = useState(Array(1).fill(''));
     const [numOtherIncomes, setNumOtherIncomes] = useState(0);
@@ -107,7 +107,9 @@ const Paystubs = () => {
         }
 
         
+        localStorage.setItem('annualIncome', annualIncome);
 
+        handleCalculatedIncome('primaryIncome', annualIncome);
 
         setResult({
             annualIncome,
@@ -115,8 +117,6 @@ const Paystubs = () => {
             averageGrossIncome,
             totalOtherIncome,
         })
-
-        localStorage.setItem('annualIncome', result.annualIncome);
 
     };
 

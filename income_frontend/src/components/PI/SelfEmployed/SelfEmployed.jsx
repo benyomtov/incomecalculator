@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './SelfEmployed.css';
 
-const SelfEmployed = () => {
+const SelfEmployed = ({handleCalculatedIncome}) => {
 
     const [grossIncome, setGrossIncome] = useState('');
     const [result, setResult] = useState(null);
@@ -47,6 +47,8 @@ const SelfEmployed = () => {
     };
 
     setResult(newResult);
+
+    handleCalculatedIncome('primaryIncome', newResult.calculatedNetIncome);
 
     localStorage.setItem('annualIncome', newResult.calculatedNetIncome);
     };
