@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
 import './SelfEmployed.css';
 
 const SelfEmployed = () => {
-
-    const navigate = useNavigate();
 
     const [grossIncome, setGrossIncome] = useState('');
     const [result, setResult] = useState(null);
@@ -44,18 +40,15 @@ const SelfEmployed = () => {
         const partiallyRoundedHourlyWage = Math.round(hourlyWage * 100) / 100;
         const roundedHourlyWage = partiallyRoundedHourlyWage.toFixed(2);
 
-        setResult({
-            calculatedNetIncome: calculatedNetIncome,
-            calculatedHourlyWage: roundedHourlyWage,
-            eligibility: roundedHourlyWage < 15.13 ? 'Not Eligible for CCAP' : 'Eligible for CCAP'});
+       const newResult = {
+        calculatedNetIncome: calculatedNetIncome,
+        calculatedHourlyWage: roundedHourlyWage,
+        eligibility: roundedHourlyWage < 15.13 ? 'Not Eligible for CCAP' : 'Eligible for CCAP'
     };
 
-    const handleSaveandContinue = () => {
-        if (result && result.calculatedNetIncome) {
-            localStorage.setItem('annualIncome', result.calculatedNetIncome);
+    setResult(newResult);
 
-            navigate('/csquestion');
-        }
+    localStorage.setItem('annualIncome', newResult.calculatedNetIncome);
     };
 
     const clearIncome = () => {
@@ -84,17 +77,11 @@ const SelfEmployed = () => {
                     <p>Net Income: ${result.calculatedNetIncome}</p>
                     <p>Hourly Wage: ${result.calculatedHourlyWage}</p>
                     <p>Eligibility: {result.eligibility}</p>
-                    <button onClick={handleSaveandContinue}>Save and Continue</button>
                     <button onClick={clearIncome}>Clear Income</button>
                 </div>
             )}
-            <Link to="/" >Back</Link>
-            <Link to="/csquestion" >Next</Link>
-            <Link to="/eligibility">Eligibility</Link>
 
         </div>
-
-        <DisplayIncomes />
         </div>
     );
     }

@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
 
 const OtherIncomes = () => {
-  const navigate = useNavigate();
 
   const [incomeInputs, setIncomeInputs] = useState([0]);
   const [totalIncome, setTotalIncome] = useState(null);
@@ -27,14 +24,9 @@ const OtherIncomes = () => {
   const calculateTotalIncome = () => {
     const totalUnRounded = incomeInputs.reduce((acc, income) => acc + income, 0);
     const total = Math.round(totalUnRounded * 100) / 100;
+    localStorage.setItem('otherIncome', total.toFixed(2));
     setTotalIncome(total.toFixed(2));
-  };
 
-  const handleSaveAndContinue = () => {
-    if (totalIncome !== null) {
-      localStorage.setItem('otherIncome', totalIncome);
-      navigate('/eligibility');
-    }
   };
 
   const handleClearAndReset = () => {
@@ -75,15 +67,9 @@ const OtherIncomes = () => {
             </strong>
             
             </p>
-          <button onClick={handleSaveAndContinue}>Save and Continue</button>
         </div>
       )}
         <button onClick={handleClearAndReset}>Clear Other Income</button>
-        <Link to="/ssdquestion">Back</Link>
-        <Link to="/eligibility">Skip</Link>
-
-        <DisplayIncomes />
-
     </div>
   );
 };

@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
+import { Link } from 'react-router-dom';
 import './UnofficialCS.css';
 
 const UnofficialCS = () => {
-
-    const navigate = useNavigate();
 
     const [frequency, setFrequency] = useState('weekly');
     const [childSupportAmount, setChildSupportAmount] = useState('');
@@ -40,6 +37,7 @@ const UnofficialCS = () => {
                 const annualChildSupportPartiallyRounded = Math.round(annualChildSupportNotRounded * 100) / 100;
                 let annualChildSupport = annualChildSupportPartiallyRounded.toFixed(2);
                 setAnnualChildSupport(annualChildSupport);
+                localStorage.setItem('annualChildSupport', annualChildSupport);
                 break;
             case 'biweekly':
                 const biweeklyChildSupportNotRounded = parsedChildSupportAmount * 2.167;
@@ -49,26 +47,19 @@ const UnofficialCS = () => {
                 const annualChildSupportPartiallyRounded2 = Math.round(annualChildSupportNotRounded2 * 100) / 100;
                 let annualChildSupport2 = annualChildSupportPartiallyRounded2.toFixed(2);
                 setAnnualChildSupport(annualChildSupport2);
+                localStorage.setItem('annualChildSupport', annualChildSupport2);
                 break;
             case 'monthly':
                 const monthlyChildSupportNotRounded = parsedChildSupportAmount * 12;
                 const monthlyChildSupportPartiallyRounded = Math.round(monthlyChildSupportNotRounded * 100) / 100;
                 let monthlyChildSupport = monthlyChildSupportPartiallyRounded.toFixed(2);
                 setAnnualChildSupport(monthlyChildSupport);
+                localStorage.setItem('annualChildSupport', monthlyChildSupport);
                 break;
                 default:
                     setAnnualChildSupport(null);
         }
     };
-
-    const handleSaveandContinue = () => {
-        if (annualChildSupport !== null) {
-            localStorage.setItem('annualChildSupport', annualChildSupport);
-            navigate('/ssdquestion');
-        }
-
-    };
-
 
     const handleClearAndReset = () => {
         // Clear annualChildSupport in localStorage
@@ -76,6 +67,7 @@ const UnofficialCS = () => {
         
         // Reset component state
         setChildSupportAmount('');
+        setFrequency('weekly');
         setAnnualChildSupport(null);
       };
 
@@ -83,8 +75,8 @@ const UnofficialCS = () => {
     return (
         <div className="unofficialCS">
             <div className="unofficialCS__content">
-                <h1 className="unofficialCS__title">Unofficial Child Support</h1>
-                <p className="unofficialCS__description">Calculate Unofficial Child Support</p>
+                <h1 className="unofficialCS__title">Child Support: Unofficial</h1>
+                <p className="unofficialCS__description">For calculating unofficial Child Support agreements between parents.</p>
                 <label>
                     Frequency:
                     <select
@@ -108,18 +100,13 @@ const UnofficialCS = () => {
                 {annualChildSupport !== null && (
                     <div>
                     <p>
-                        Annual Child Support: <strong>${annualChildSupport}</strong>
+                        Annual Child Support: <strong>{annualChildSupport}</strong>
                     </p>
-                    <button onClick={handleSaveandContinue}>Save and Continue</button>
                     <button onClick={handleClearAndReset}>Clear Child Support</button>
                     </div>
                 )}
-                <Link to="/">Back</Link>
-                <Link to="/ssdquestion">Next</Link>
-                <Link to="/eligibility">Eligibility</Link>
+            <Link to="/csquestion">Back</Link>
             </div>
-
-            <DisplayIncomes />
         </div>
     );
 }

@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
 import './Paystubs.css';
 
 const Paystubs = () => {
-
-    const navigate = useNavigate();
 
     const [grossIncomes, setGrossIncomes] = useState(Array(1).fill(''));
     const [numOtherIncomes, setNumOtherIncomes] = useState(0);
@@ -120,15 +116,8 @@ const Paystubs = () => {
             totalOtherIncome,
         })
 
+        localStorage.setItem('annualIncome', result.annualIncome);
 
-    };
-
-    const handleSaveandContinue = () => {
-        if (result && result.annualIncome) {
-            localStorage.setItem('annualIncome', result.annualIncome);
-
-            navigate('/csquestion');
-        }
     };
 
     const clearIncome = () => {
@@ -144,7 +133,7 @@ const Paystubs = () => {
         <div className="paystubs">
         <div className="paystubs__content">
             <h1 className="paystubs__title">Paystubs</h1>
-            <p className="paystubs__description">Calculate Paystubs</p>
+            <h2 className="paystubs__description">Calculate primary income based on paystubs</h2>
 
             <label>
                 Select Number of Paystubs:
@@ -212,23 +201,13 @@ const Paystubs = () => {
                     <p>
                         Annual Income Plus Other: <strong>{result.annualIncome}</strong>
                     </p>
-                   
-                    <button onClick={handleSaveandContinue}>Save and Continue</button>
                     <button onClick={clearIncome}>Clear Income</button>
                 </div>
 
                 
             )}
 
-            
-
-            <Link to="/" >Back</Link>
-            <Link to="/csquestion" >Next</Link>
-            <Link to="/eligibility">Eligibility</Link>
-
         </div>
-
-        <DisplayIncomes />
         </div>
     );
     }

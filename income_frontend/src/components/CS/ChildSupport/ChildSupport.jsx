@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
 import './ChildSupport.css';
+import { Link } from 'react-router-dom';
 
 const ChildSupport = () => {
-
-    const navigate = useNavigate();
 
     const [childPayments, setChildPayments] = useState([]);
     const [numChildren, setNumChildren] = useState('one child');
@@ -29,14 +26,14 @@ const ChildSupport = () => {
         setIsLumpSum([...isLumpSum, false]);
     };
 
-    const handleRemoveChildPayment = (index) => {
-        const newChildPayments = [...childPayments];
-        newChildPayments.splice(index, 1);
-        setChildPayments(newChildPayments);
-
-        const newIsLumpSum = [...isLumpSum];
-        newIsLumpSum.splice(index, 1);
-        setIsLumpSum(newIsLumpSum);
+    const handleRemoveChildPayment = () => {
+      const newChildPayments = [...childPayments];
+      newChildPayments.splice(newChildPayments.length - 1, 1);
+      setChildPayments(newChildPayments);
+  
+      const newIsLumpSum = [...isLumpSum];
+      newIsLumpSum.splice(newIsLumpSum.length - 1, 1);
+      setIsLumpSum(newIsLumpSum);
     };
 
     const calculateAnnualChildSupport = () => {
@@ -102,31 +99,25 @@ const ChildSupport = () => {
         setAnnualChildSupport({
             annualChildSupport,
         });
+        localStorage.setItem('annualChildSupport', annualChildSupport);
     };
 
     const handleNumChildrenChange = (event) => {
         setNumChildren(event.target.value);
     };
 
-    const handleSaveandContinue = () => {
-        if (annualChildSupport !== null) {
-            localStorage.setItem('annualChildSupport', annualChildSupport.annualChildSupport);
-            navigate('/ssdquestion');
-        }
-
-    };
-
     const handleClearAndReset = () => {
         setChildPayments([]);
         setIsLumpSum([]);
         setAnnualChildSupport(null);
+        localStorage.removeItem('annualChildSupport');
       };
 
     return (
       <div className="childsupport">
         <div className="childsupport__content">
-          <h1 className="childsupport__title">Child Support</h1>
-          <p className="childsupport__description">Calculate Child Support</p>
+          <h1 className="childsupport__title">Child Support: Official</h1>
+          <p className="childsupport__description">For calculating Child Support payments that are court-mandated.</p>
 
           <label>
             Number of Children:
@@ -142,7 +133,7 @@ const ChildSupport = () => {
           {childPayments.map((childPayment, index) => (
             <div key={index} className="childsupport__input-container">
               <label>
-                Child Support #{index + 1}:
+                Child Support Payment #{index + 1}:
                 <input
                   type="number"
                   value={childPayment}
@@ -164,8 +155,8 @@ const ChildSupport = () => {
             </div>
           ))}
             <div className="childsupport__buttons-container">
-                <button className="childsupport__button" onClick={handleaddChildPayment}>Add Child Support</button>
-                <button className="childsupport__button" onClick={handleRemoveChildPayment}>Remove Child Support</button>
+                <button className="childsupport__button" onClick={handleaddChildPayment}>Add Child Support Payment</button>
+                <button className="childsupport__button" onClick={handleRemoveChildPayment}>Remove Child Support Payment</button>
                 <button className="childsupport__button" onClick={calculateAnnualChildSupport}>Calculate Annual Child Support</button>
             </div>
             {annualChildSupport !== null && (
@@ -174,20 +165,13 @@ const ChildSupport = () => {
                             Annual Child Support: 
                             <strong>
                                 {annualChildSupport.annualChildSupport}
-                            </strong>
-                            <button className="childsupport__button" onClick={handleSaveandContinue}>Save and Continue</button>     
+                            </strong>     
                     </p>
                     <button className="childsupport__button" onClick={handleClearAndReset}>Clear Child Support</button>
                 </div>
             )}
-
-          <Link to="/csquestion">Back</Link>
-          <Link to="/ssdquestion">Next</Link>
-          <Link to="/">Home</Link>
-          <Link to="/eligibility">Eligibility</Link>
+            <Link to="/csquestion">Back</Link>
         </div>
-
-        <DisplayIncomes />
       </div>
     );
     }

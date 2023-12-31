@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
+import { useNavigate } from 'react-router-dom';
 import './SSDQuestion.css';
 
 const SSDQuestion = () => {
+
     const navigate = useNavigate();
 
     const [receivesSSD, setReceivesSSD] = useState(null);
@@ -16,7 +16,8 @@ const SSDQuestion = () => {
 
     const handleNoClick = () => {
         setReceivesSSD(false);
-        navigate('/other');
+        localStorage.setItem('annualSSD', 0);
+        navigate('/');
     };
 
     const handleSSDAmountChange = (event) => {
@@ -33,16 +34,12 @@ const SSDQuestion = () => {
 
         const annualSSDAmountPartiallyRounded = Math.round(parsedSSDAmount * 12 *100) / 100;
         const annualSSDAmount = annualSSDAmountPartiallyRounded.toFixed(2);
+        localStorage.setItem('annualSSD', annualSSDAmount);
         setAnnualSSD(annualSSDAmount);
 
     }
+    
 
-    const handleSaveandContinue = () => {
-        if (annualSSD !== null) {
-            localStorage.setItem('annualSSD', annualSSD);
-            navigate('/other');
-        }
-    };
 
     const handleClearAndReset = () => {
         // Clear annualSSD from localStorage
@@ -81,15 +78,9 @@ const SSDQuestion = () => {
                             ${annualSSD}
                         </strong>
                     </p>
-                    <button onClick={handleSaveandContinue}>Save and Continue</button>
                 </div>
             )}
             <button onClick={handleClearAndReset}>Clear SSD</button>
-            <Link to="/csquestion">Back to Child Support</Link>
-            <Link to="/other">Next</Link>
-            <Link to="/eligibility">Eligibility</Link>
-
-            <DisplayIncomes />
         </div>
     );
 };

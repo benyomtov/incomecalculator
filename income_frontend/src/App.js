@@ -1,14 +1,16 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Landing from './components/Landing/Landing';
-import SelfEmployed from './components/SelfEmployed/SelfEmployed';
-import Paystubs from './components/Paystubs/Paystubs';
-import ChildSupport from './components/ChildSupport/ChildSupport';
+import Landing from './components/PI/Landing/Landing';
+import Paystubs from './components/PI/Paystubs/Paystubs';
+import SelfEmployed from './components/PI/SelfEmployed/SelfEmployed';
 import Eligibility from './components/Eligibility/Eligibility';
-import CSQuestion from './components/CSQuestion/CSQuestion';
-import UnofficialCS from './components/UnofficialCS/UnofficialCS';
 import SSDQuestion from './components/SSDQuestion/SSDQuestion';
 import Other from './components/Other/Other';
+import ChildSupport from './components/CS/ChildSupport/ChildSupport';
+import CSQuestion from './components/CS/CSQuestion/CSQuestion';
+import UnofficialCS from './components/CS/UnofficialCS/UnofficialCS';
+import IncomeFromEmpVer from './components/PI/IncomeFromEmpVer/IncomeFromEmpVer';
+
 
 import './App.css';
 
@@ -26,6 +28,7 @@ function App() {
           <Route path="/unofficialcs" element={<UnofficialCS />} />
           <Route path="/ssdquestion" element={<SSDQuestion />} />
           <Route path="/other" element={<Other />} />
+          <Route path="/incomefromempver" element={<IncomeFromEmpVer />} />
         </Routes>
       </Router>
     </div>

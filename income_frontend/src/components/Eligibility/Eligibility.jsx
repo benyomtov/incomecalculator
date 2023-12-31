@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
 const EligibilityCalculator = () => {
   const [annualIncome, setAnnualIncome] = useState(
@@ -221,8 +220,6 @@ const EligibilityCalculator = () => {
             </button>
         </div>
       )}
-      <Link to="/">Go back to the homepage</Link>
-      <Link to="/other">Go back to Other</Link>
     </div>
   );
 };

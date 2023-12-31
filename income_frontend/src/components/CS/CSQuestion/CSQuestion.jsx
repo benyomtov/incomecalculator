@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import DisplayIncomes from '../DisplayIncomes/DisplayIncomes';
+import { useNavigate } from 'react-router-dom';
 import './CSQuestion.css';
 
 const CSQuestion = () => {
@@ -12,9 +11,8 @@ const CSQuestion = () => {
   };
 
   const handleNoClick = () => {
-    // If the user indicates that the applicant does not receive child support,
-    // redirect to /eligibility
-    navigate('/eligibility');
+    localStorage.setItem('annualChildSupport', 0);
+    navigate('/');
   };
 
   const handleLegalAgreementClick = () => {
@@ -51,16 +49,8 @@ const CSQuestion = () => {
             <button onClick={handleUnofficialAgreementClick}>No, it's an unofficial agreement</button>
           </div>
         )}
-
-        <Link to="/">Back to Homepage</Link>
-        <Link to="/paystubs">Paystub Calculator</Link>
-        <Link to="/selfemployed">Self-Employment Income Calculator</Link>
-        <Link to="/eligibility">Eligibility</Link>
         
       </div>
-
-        <DisplayIncomes />
-        
     </div>
   );
 };
