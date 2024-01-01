@@ -4,6 +4,7 @@ const OtherIncomes = ({handleCalculatedIncome}) => {
 
   const [incomeInputs, setIncomeInputs] = useState([0]);
   const [totalIncome, setTotalIncome] = useState(null);
+  const [addToCurrentTotals, setAddToCurrentTotals] = useState(false);
 
   const handleAddIncome = () => {
     setIncomeInputs((prevInputs) => [...prevInputs, 0]);
@@ -22,22 +23,43 @@ const OtherIncomes = ({handleCalculatedIncome}) => {
   };
 
   const calculateTotalIncome = () => {
+
+    if (incomeInputs.some(isNaN) || incomeInputs.length === 0 || incomeInputs.some((income) => income <= 0)) {
+      setTotalIncome('Invalid Input');
+      return;
+    }
+
     const totalUnRounded = incomeInputs.reduce((acc, income) => acc + income, 0);
     const total = Math.round(totalUnRounded * 100) / 100;
     const totalRounded = total.toFixed(2);
-    localStorage.setItem('otherIncome', total.toFixed(2));
-    handleCalculatedIncome('other', (totalRounded));
+
+    if (addToCurrentTotals) {
+      const totalOtherIncome = localStorage.getItem('other');
+      const totalOtherIncomeParsed = parseFloat(totalOtherIncome);
+      const newTotalIncome = totalOtherIncomeParsed + parseFloat(totalRounded);
+      localStorage.setItem('other', newTotalIncome);
+      handleCalculatedIncome('other', newTotalIncome);
+    } else {
+        localStorage.setItem('other', totalRounded);
+        handleCalculatedIncome('other', totalRounded);
+    }
+
     setTotalIncome(total.toFixed(2));
 
   };
 
   const handleClearAndReset = () => {
+
+    setAddToCurrentTotals(false);
+
     // Clear otherIncome from localStorage
     localStorage.removeItem('otherIncome');
 
     // Reset component state
     setIncomeInputs([0]);
     setTotalIncome(null);
+
+    handleCalculatedIncome('other', 0);
   };
 
 
@@ -59,6 +81,14 @@ const OtherIncomes = ({handleCalculatedIncome}) => {
       ))}
       <button onClick={handleAddIncome}>+</button>
       <button onClick={handleRemoveIncome}>-</button>
+      <label>
+        Add to current totals:
+        <input
+          type="checkbox"
+          checked={addToCurrentTotals}
+          onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
+        />
+      </label>
       <button onClick={calculateTotalIncome}>Calculate Other Income</button>
       {totalIncome !== null && (
         <div>

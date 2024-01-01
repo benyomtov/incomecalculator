@@ -6,8 +6,15 @@ const IncomeFromEmpVer = ({handleCalculatedIncome}) => {
   const [isSalaried, setIsSalaried] = useState(false);
   const [yearlySalary, setYearlySalary] = useState('');
   const [calculatedIncome, setCalculatedIncome] = useState('');
+  const [addToCurrentTotals, setAddToCurrentTotals] = useState(false);
 
   const calculateIncome = () => {
+
+    if (!hourlyWage || !hoursPerWeek) {
+        setCalculatedIncome('Invalid Input');
+        return;
+      }
+
     let income = 0;
 
     if (!isSalaried) {
@@ -18,11 +25,18 @@ const IncomeFromEmpVer = ({handleCalculatedIncome}) => {
     }
 
     const roundedIncome = roundToNearestHundredth(income);
-    handleCalculatedIncome('primaryIncome', roundedIncome);
+
     setCalculatedIncome(roundedIncome);
 
-    // Save to local storage
-    localStorage.setItem('annualIncome', roundedIncome.toString());
+   if (addToCurrentTotals) {
+        const currentTotal = parseFloat(localStorage.getItem('annualIncome')) || 0;
+        const newTotal = currentTotal + parseFloat(roundedIncome);
+        localStorage.setItem('annualIncome', newTotal);
+        handleCalculatedIncome('primaryIncome', newTotal);
+        } else {
+        localStorage.setItem('annualIncome', parseFloat(roundedIncome));
+        handleCalculatedIncome('primaryIncome', parseFloat(roundedIncome));
+        }
   };
 
   const roundToNearestHundredth = (value) => {
@@ -31,6 +45,9 @@ const IncomeFromEmpVer = ({handleCalculatedIncome}) => {
   };
 
   const handleClearIncome = () => {
+
+    setAddToCurrentTotals(false);
+
     // Clear local storage and reset values
     localStorage.removeItem('annualIncome');
     setHourlyWage('');
@@ -38,6 +55,9 @@ const IncomeFromEmpVer = ({handleCalculatedIncome}) => {
     setIsSalaried(false);
     setYearlySalary('');
     setCalculatedIncome('');
+
+    handleCalculatedIncome('primaryIncome', 0);
+
   };
 
   return (
@@ -83,6 +103,14 @@ const IncomeFromEmpVer = ({handleCalculatedIncome}) => {
           </label>
         </>
       )}
+      <label>
+        Add to Current Totals:
+        <input
+          type="checkbox"
+          checked={addToCurrentTotals}
+          onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
+        />
+      </label>
       <br />
       <button onClick={calculateIncome}>Calculate Income</button>
       <br />

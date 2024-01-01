@@ -7,6 +7,7 @@ const UnofficialCS = ({handleCalculatedIncome}) => {
     const [frequency, setFrequency] = useState('weekly');
     const [childSupportAmount, setChildSupportAmount] = useState('');
     const [annualChildSupport, setAnnualChildSupport] = useState(null);
+    const [addToCurrentTotals, setAddToCurrentTotals] = useState(false);
 
     const handleFrequencyChange = (event) => {
         setFrequency(event.target.value);
@@ -20,9 +21,7 @@ const UnofficialCS = ({handleCalculatedIncome}) => {
 
         if (isNaN(childSupportAmount) || !childSupportAmount) {
 
-            setAnnualChildSupport({
-                annualChildSupport: 'Invalid Input',
-            });
+            setAnnualChildSupport('Invalid Input');
             return;
         }
 
@@ -37,8 +36,16 @@ const UnofficialCS = ({handleCalculatedIncome}) => {
                 const annualChildSupportPartiallyRounded = Math.round(annualChildSupportNotRounded * 100) / 100;
                 let annualChildSupport = annualChildSupportPartiallyRounded.toFixed(2);
                 setAnnualChildSupport(annualChildSupport);
-                handleCalculatedIncome('childSupport', annualChildSupport);
-                localStorage.setItem('annualChildSupport', annualChildSupport);
+                if (addToCurrentTotals) {
+                    const currentTotalUnparsed = localStorage.getItem('currentTotal');
+                    const currentTotal = parseFloat(currentTotalUnparsed) || 0;
+                    const newTotal = currentTotal + parseFloat(annualChildSupport);
+                    localStorage.setItem('currentTotal', newTotal);
+                    handleCalculatedIncome('childSupport', newTotal);
+                    } else {
+                    localStorage.setItem('currentTotal', parseFloat(annualChildSupport));
+                    handleCalculatedIncome('childSupport', parseFloat(annualChildSupport));
+                    }
                 break;
             case 'biweekly':
                 const biweeklyChildSupportNotRounded = parsedChildSupportAmount * 2.167;
@@ -48,8 +55,16 @@ const UnofficialCS = ({handleCalculatedIncome}) => {
                 const annualChildSupportPartiallyRounded2 = Math.round(annualChildSupportNotRounded2 * 100) / 100;
                 let annualChildSupport2 = annualChildSupportPartiallyRounded2.toFixed(2);
                 setAnnualChildSupport(annualChildSupport2);
-                handleCalculatedIncome('childSupport', annualChildSupport2);
-                localStorage.setItem('annualChildSupport', annualChildSupport2);
+                if (addToCurrentTotals) {
+                    const currentTotalUnparsed = localStorage.getItem('currentTotal');
+                    const currentTotal = parseFloat(currentTotalUnparsed) || 0;
+                    const newTotal = currentTotal + parseFloat(annualChildSupport2);
+                    localStorage.setItem('currentTotal', newTotal);
+                    handleCalculatedIncome('childSupport', newTotal);
+                    } else {
+                    localStorage.setItem('currentTotal', parseFloat(annualChildSupport2));
+                    handleCalculatedIncome('childSupport', parseFloat(annualChildSupport2));
+                    }
                 break;
             case 'monthly':
                 const monthlyChildSupportNotRounded = parsedChildSupportAmount * 12;
@@ -57,7 +72,16 @@ const UnofficialCS = ({handleCalculatedIncome}) => {
                 let monthlyChildSupport = monthlyChildSupportPartiallyRounded.toFixed(2);
                 setAnnualChildSupport(monthlyChildSupport);
                 handleCalculatedIncome('childSupport', monthlyChildSupport);
-                localStorage.setItem('annualChildSupport', monthlyChildSupport);
+                if (addToCurrentTotals) {
+                    const currentTotalUnparsed = localStorage.getItem('currentTotal');
+                    const currentTotal = parseFloat(currentTotalUnparsed) || 0;
+                    const newTotal = currentTotal + parseFloat(monthlyChildSupport);
+                    localStorage.setItem('currentTotal', newTotal);
+                    handleCalculatedIncome('childSupport', newTotal);
+                    } else {
+                    localStorage.setItem('currentTotal', parseFloat(monthlyChildSupport));
+                    handleCalculatedIncome('childSupport', parseFloat(monthlyChildSupport));
+                    }
                 break;
                 default:
                     setAnnualChildSupport(null);
@@ -65,6 +89,8 @@ const UnofficialCS = ({handleCalculatedIncome}) => {
     };
 
     const handleClearAndReset = () => {
+
+        setAddToCurrentTotals(false);
         // Clear annualChildSupport in localStorage
         localStorage.removeItem('annualChildSupport');
         
@@ -72,45 +98,54 @@ const UnofficialCS = ({handleCalculatedIncome}) => {
         setChildSupportAmount('');
         setFrequency('weekly');
         setAnnualChildSupport(null);
+
+        handleCalculatedIncome('childSupport', 0);
       };
 
 
     return (
-        <div className="unofficialCS">
-            <div className="unofficialCS__content">
-                <h1 className="unofficialCS__title">Child Support: Unofficial</h1>
-                <p className="unofficialCS__description">For calculating unofficial Child Support agreements between parents.</p>
-                <label>
-                    Frequency:
-                    <select
-                        value={frequency}
-                        onChange={handleFrequencyChange}
-                    >
-                        <option value="weekly">Weekly</option>
-                        <option value="biweekly">Biweekly</option>
-                        <option value="monthly">Monthly</option>
-                    </select>
-                </label>
-                <label>
-                    Child Support Amount:
-                    <input
-                        type="number"
-                        value={childSupportAmount}
-                        onChange={handleChildSupportAmountChange}
-                    />
-                </label>
-                <button onClick={calculateAnnualChildSupport}>Calculate</button>
-                {annualChildSupport !== null && (
-                    <div>
-                    <p>
-                        Annual Child Support: <strong>{annualChildSupport}</strong>
-                    </p>
-                    <button onClick={handleClearAndReset}>Clear Child Support</button>
-                    </div>
-                )}
-            <Link to="/csquestion">Back</Link>
+      <div className="unofficialCS">
+        <div className="unofficialCS__content">
+          <h1 className="unofficialCS__title">Child Support: Unofficial</h1>
+          <p className="unofficialCS__description">
+            For calculating unofficial Child Support agreements between parents.
+          </p>
+          <label>
+            Frequency:
+            <select value={frequency} onChange={handleFrequencyChange}>
+              <option value="weekly">Weekly</option>
+              <option value="biweekly">Biweekly</option>
+              <option value="monthly">Monthly</option>
+            </select>
+          </label>
+          <label>
+            Child Support Amount:
+            <input
+              type="number"
+              value={childSupportAmount}
+              onChange={handleChildSupportAmountChange}
+            />
+          </label>
+          <label>
+            Add to Current Totals:
+            <input
+              type="checkbox"
+              checked={addToCurrentTotals}
+              onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
+            />
+          </label>
+          <button onClick={calculateAnnualChildSupport}>Calculate</button>
+          {annualChildSupport !== null && (
+            <div>
+              <p>
+                Annual Child Support: <strong>{annualChildSupport}</strong>
+              </p>
+              <button onClick={handleClearAndReset}>Clear Child Support</button>
             </div>
+          )}
+          <Link to="/csquestion">Back</Link>
         </div>
+      </div>
     );
 }
 

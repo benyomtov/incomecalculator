@@ -8,6 +8,7 @@ const ChildSupport = ({handleCalculatedIncome}) => {
     const [numChildren, setNumChildren] = useState('one child');
     const [isLumpSum, setIsLumpSum] = useState([]);
     const [annualChildSupport, setAnnualChildSupport] = useState(null);
+    const [addToCurrentTotals, setAddToCurrentTotals] = useState(false);
 
     const handleInputChange = (index, value) => {
         const newChildPayments = [...childPayments];
@@ -100,8 +101,17 @@ const ChildSupport = ({handleCalculatedIncome}) => {
             annualChildSupport,
         });
 
-        handleCalculatedIncome('childSupport', annualChildSupport);
-        localStorage.setItem('annualChildSupport', annualChildSupport);
+        if (addToCurrentTotals) {
+          const currentTotalUnparsed = localStorage.getItem('annualChildSupport');
+          const currentTotal = parseFloat(currentTotalUnparsed) || 0;
+          const newTotal = currentTotal + parseFloat(annualChildSupport);
+          localStorage.setItem('annualChildSupport', newTotal);
+          handleCalculatedIncome('childSupport', newTotal);
+
+        } else {
+          localStorage.setItem('annualChildSupport', annualChildSupport);
+          handleCalculatedIncome('childSupport', annualChildSupport);
+        }
     };
 
     const handleNumChildrenChange = (event) => {
@@ -109,26 +119,31 @@ const ChildSupport = ({handleCalculatedIncome}) => {
     };
 
     const handleClearAndReset = () => {
+
+        setAddToCurrentTotals(false);
+
         setChildPayments([]);
         setIsLumpSum([]);
         setAnnualChildSupport(null);
         localStorage.removeItem('annualChildSupport');
+
+        handleCalculatedIncome('childSupport', 0);
+
       };
 
     return (
       <div className="childsupport">
         <div className="childsupport__content">
           <h1 className="childsupport__title">Child Support: Official</h1>
-          <p className="childsupport__description">For calculating Child Support payments that are court-mandated.</p>
+          <p className="childsupport__description">
+            For calculating Child Support payments that are court-mandated.
+          </p>
 
           <label>
             Number of Children:
-            <select
-                value={numChildren}
-                onChange={handleNumChildrenChange}
-            >
-                <option value="one child">One Child</option>
-                <option value="two children">Two Children</option>
+            <select value={numChildren} onChange={handleNumChildrenChange}>
+              <option value="one child">One Child</option>
+              <option value="two children">Two Children</option>
             </select>
           </label>
 
@@ -144,35 +159,61 @@ const ChildSupport = ({handleCalculatedIncome}) => {
                   }
                 />
               </label>
-                <label>
-                    Is this a lump sum payment?
-                    <input
-                        type="checkbox"
-                        checked={isLumpSum[index]}
-                        onChange={(event) =>
-                            handleLumpSumChange(index, event.target.checked)
-                        }
-                    />
-                </label>
+              <label>
+                Is this a lump sum payment?
+                <input
+                  type="checkbox"
+                  checked={isLumpSum[index]}
+                  onChange={(event) =>
+                    handleLumpSumChange(index, event.target.checked)
+                  }
+                />
+              </label>
             </div>
           ))}
-            <div className="childsupport__buttons-container">
-                <button className="childsupport__button" onClick={handleaddChildPayment}>Add Child Support Payment</button>
-                <button className="childsupport__button" onClick={handleRemoveChildPayment}>Remove Child Support Payment</button>
-                <button className="childsupport__button" onClick={calculateAnnualChildSupport}>Calculate Annual Child Support</button>
+          <div className="childsupport__buttons-container">
+            <button
+              className="childsupport__button"
+              onClick={handleaddChildPayment}
+            >
+              Add Child Support Payment
+            </button>
+            <button
+              className="childsupport__button"
+              onClick={handleRemoveChildPayment}
+            >
+              Remove Child Support Payment
+            </button>
+            <label>
+              Add to Current Totals:
+              <input
+                type="checkbox"
+                checked={addToCurrentTotals}
+                onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
+              />
+            </label>
+            <button
+              className="childsupport__button"
+              onClick={calculateAnnualChildSupport}
+            >
+              Calculate Annual Child Support
+            </button>
+          </div>
+          {annualChildSupport !== null && (
+            <div className="childsupport__result-container">
+              <p className="childsupport__result">
+                Annual Child Support:
+                <strong>{annualChildSupport.annualChildSupport}</strong>
+              </p>
+              <button
+                className="childsupport__button"
+                onClick={handleClearAndReset}
+              >
+                Clear Child Support
+              </button>
             </div>
-            {annualChildSupport !== null && (
-                <div className="childsupport__result-container">
-                    <p className="childsupport__result">
-                            Annual Child Support: 
-                            <strong>
-                                {annualChildSupport.annualChildSupport}
-                            </strong>     
-                    </p>
-                    <button className="childsupport__button" onClick={handleClearAndReset}>Clear Child Support</button>
-                </div>
-            )}
-            <Link to="/csquestion">Back</Link>
+          )}
+          <Link to="/csquestion">Back</Link>
         </div>
       </div>
     );

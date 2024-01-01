@@ -4,6 +4,7 @@ import './SelfEmployed.css';
 const SelfEmployed = ({handleCalculatedIncome}) => {
 
     const [grossIncome, setGrossIncome] = useState('');
+    const [addToCurrentTotals, setAddToCurrentTotals] = useState(false);
     const [result, setResult] = useState(null);
 
     const hadleGrossIncomeChange = (event) => {
@@ -13,17 +14,14 @@ const SelfEmployed = ({handleCalculatedIncome}) => {
     const handleNetIncomeCalculation = (event) => {
         event.preventDefault();
 
-        if (!grossIncome) {
-            setResult(null);
-            return;
-        }
-
-        if (isNaN(grossIncome)) {
+        if (!grossIncome || isNaN(grossIncome)) {
             setResult({
-                calculatedNetIncome: 'Please enter a valid number'
+              calculatedNetIncome: 'Invalid Input',
+              calculatedHourlyWage: 'Invalid Input',
+              eligibility: 'Invalid Input',
             });
             return;
-        }
+          }
 
         const calculatedDeductedIncome = grossIncome * 0.51;
         const partiallyRoundedDeductedIncome =  Math.round(calculatedDeductedIncome * 100) / 100;
@@ -48,15 +46,28 @@ const SelfEmployed = ({handleCalculatedIncome}) => {
 
     setResult(newResult);
 
-    handleCalculatedIncome('primaryIncome', newResult.calculatedNetIncome);
+    if (addToCurrentTotals) {
+        const currentTotal = parseFloat(localStorage.getItem('annualIncome')) || 0;
+        const newTotal = currentTotal + parseFloat(newResult.calculatedNetIncome);
+        localStorage.setItem('annualIncome', newTotal);
+        handleCalculatedIncome('primaryIncome', newTotal);
+      } else {
+        localStorage.setItem('annualIncome', parseFloat(newResult.calculatedNetIncome));
+        handleCalculatedIncome('primaryIncome', parseFloat(newResult.calculatedNetIncome));
+      }
 
-    localStorage.setItem('annualIncome', newResult.calculatedNetIncome);
     };
 
     const clearIncome = () => {
+
+        setAddToCurrentTotals(false);
+
         localStorage.removeItem('annualIncome');
         setGrossIncome('');
         setResult(null);
+
+        handleCalculatedIncome('primaryIncome', 0);
+
       };
 
     return (
@@ -72,6 +83,15 @@ const SelfEmployed = ({handleCalculatedIncome}) => {
                     value={grossIncome}
                     onChange={hadleGrossIncomeChange}
                 />
+
+                <label>
+                    Add to Current Totals:
+                    <input
+                        type="checkbox"
+                        checked={addToCurrentTotals}
+                        onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
+                    />
+                </label>
                 <button type="submit">Calculate</button>
             </form>
             {result && (

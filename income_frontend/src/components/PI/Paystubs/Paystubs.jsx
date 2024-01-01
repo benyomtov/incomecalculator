@@ -8,6 +8,7 @@ const Paystubs = ({handleCalculatedIncome}) => {
     const [otherIncomes, setOtherIncomes] = useState(Array(numOtherIncomes).fill(''));
     const [payFrequency, setPayFrequency] = useState('monthly');
     const [result, setResult] = useState(null);
+    const [addToCurrentTotals, setAddToCurrentTotals] = useState(false);
 
     const handlePayFrequencyChange = (event) => {
         setPayFrequency(event.target.value);
@@ -46,79 +47,6 @@ const Paystubs = ({handleCalculatedIncome}) => {
         setNumOtherIncomes(newNumOtherIncomes);
         setOtherIncomes(Array(newNumOtherIncomes).fill(''));
     };
-
-    // const calculateAnnualIncome = () => {
-    //     const parsedGrossIncomes = grossIncomes.map((grossIncome) => parseFloat(grossIncome));
-    //     const parsedOtherIncomes = otherIncomes.map((otherIncome) => parseFloat(otherIncome));
-
-    //     if (parsedGrossIncomes.some((isNaN) || 
-    //         parsedOtherIncomes.some(isNaN) || 
-    //         parsedGrossIncomes.length === 0)) {
-    //         setResult({
-
-    //             annualIncome: 'Invalid Input',
-    //             averageGrossIncome: 'Invalid Input',
-    //         });
-    //         return;
-    //     }
-
-    //     const averageGrossIncomeNotRounded = (parsedGrossIncomes.reduce((acc, income) => acc + income, 0) / parsedGrossIncomes.length);
-    //     const averageGrossIncomePartiallyRounded = Math.round(averageGrossIncomeNotRounded * 100) / 100;
-    //     const averageGrossIncome = averageGrossIncomePartiallyRounded.toFixed(2);
-
-    //     let annualIncomeNotRounded;
-    //     let annualIncomePartiallyRounded;
-    //     let annualIncomeRounded;
-    //     let annualIncome;
-    //     let totalOtherIncome;
-
-    //     switch (payFrequency) {
-    //         case 'monthly':
-    //             annualIncomeNotRounded = (averageGrossIncome * 12);
-    //             annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
-    //             annualIncomeRounded = annualIncomePartiallyRounded.toFixed(2);
-    //             totalOtherIncome = parsedOtherIncomes.reduce((acc, income) => acc + income, 0);
-    //             annualIncome = parseFloat(annualIncomeRounded) + parseFloat(totalOtherIncome);
-    //             break;
-    //         case 'semi-monthly':
-    //             annualIncomeNotRounded = (averageGrossIncome * 24);
-    //             annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
-    //             annualIncomeRounded = annualIncomePartiallyRounded.toFixed(2);
-    //             totalOtherIncome = parsedOtherIncomes.reduce((acc, income) => acc + income, 0);
-    //             annualIncome = parseFloat(annualIncomeRounded) + parseFloat(totalOtherIncome);
-    //             break;
-    //         case 'bi-weekly':
-    //             annualIncomeNotRounded = (averageGrossIncome * 26);
-    //             annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
-    //             annualIncomeRounded = annualIncomePartiallyRounded.toFixed(2);
-    //             totalOtherIncome = parsedOtherIncomes.reduce((acc, income) => acc + income, 0);
-    //             annualIncome = parseFloat(annualIncomeRounded) + parseFloat(totalOtherIncome);
-    //             break;
-    //         case 'weekly':
-    //             annualIncomeNotRounded = (averageGrossIncome * 52);
-    //             annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
-    //             annualIncomeRounded = annualIncomePartiallyRounded.toFixed(2);
-    //             totalOtherIncome = parsedOtherIncomes.reduce((acc, income) => acc + income, 0);
-    //             annualIncome = parseFloat(annualIncomeRounded) + parseFloat(totalOtherIncome);
-    //             break;
-    //         default:
-    //             setResult(null);
-    //             return;
-    //     }
-
-        
-    //     localStorage.setItem('annualIncome', annualIncome);
-
-    //     handleCalculatedIncome('primaryIncome', annualIncome);
-
-    //     setResult({
-    //         annualIncome,
-    //         annualIncomeRounded,
-    //         averageGrossIncome,
-    //         totalOtherIncome,
-    //     })
-
-    // };
 
     const calculateAnnualIncome = () => {
         const parsedGrossIncomes = grossIncomes.map((grossIncome) => parseFloat(grossIncome));
@@ -173,9 +101,16 @@ const Paystubs = ({handleCalculatedIncome}) => {
         annualIncome = annualIncomePartiallyRounded.toFixed(2);
 
       
-        localStorage.setItem('annualIncome', parseFloat(annualIncome));
-      
-        handleCalculatedIncome('primaryIncome', annualIncome);
+        if (addToCurrentTotals) {
+          const currentAnnualIncome = localStorage.getItem('annualIncome');
+          const currentAnnualIncomeParsed = parseFloat(currentAnnualIncome);
+          const newAnnualIncome = currentAnnualIncomeParsed + parseFloat(annualIncome);
+          localStorage.setItem('annualIncome', newAnnualIncome);
+          handleCalculatedIncome('primaryIncome', newAnnualIncome);
+        } else {
+            localStorage.setItem('annualIncome', annualIncome);
+            handleCalculatedIncome('primaryIncome', annualIncome);
+        }
       
         setResult({
           annualIncome,
@@ -186,12 +121,17 @@ const Paystubs = ({handleCalculatedIncome}) => {
       };      
 
     const clearIncome = () => {
+
+        setAddToCurrentTotals(false);
+
         localStorage.removeItem('annualIncome');
         setGrossIncomes(Array(1).fill(''));
         setNumOtherIncomes(0);
         setOtherIncomes(Array(0).fill(''));
         setPayFrequency('monthly');
         setResult(null);
+
+        handleCalculatedIncome('primaryIncome', 0);
       };
 
     return (
@@ -248,6 +188,14 @@ const Paystubs = ({handleCalculatedIncome}) => {
                     </label>
                 </div>
             ))}
+
+            <label>
+                Add to Current Totals:
+                <input type="checkbox"
+                        checked={addToCurrentTotals}
+                        onChange={(event) => setAddToCurrentTotals(event.target.checked)}
+                        />
+            </label>
 
             <button onClick={calculateAnnualIncome}>Calculate</button>
 
