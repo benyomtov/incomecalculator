@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './Other.css';
+import { Link } from 'react-router-dom';
 
 const OtherIncomes = ({handleCalculatedIncome}) => {
 
@@ -65,43 +67,48 @@ const OtherIncomes = ({handleCalculatedIncome}) => {
 
   return (
     <div>
-      <h1>Other Annual Incomes</h1>
-      <p>Last chance! Please enter any other income here.</p>
-      {incomeInputs.map((income, index) => (
-        <div key={index}>
-          <label>
-            Income {index + 1}:
-            <input
-              type="number"
-              value={income}
-              onChange={(e) => handleIncomeChange(index, e.target.value)}
-            />
-          </label>
-        </div>
-      ))}
-      <button onClick={handleAddIncome}>+</button>
-      <button onClick={handleRemoveIncome}>-</button>
-      <label>
-        Add to current totals:
-        <input
-          type="checkbox"
-          checked={addToCurrentTotals}
-          onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
-        />
-      </label>
-      <button onClick={calculateTotalIncome}>Calculate Other Income</button>
-      {totalIncome !== null && (
-        <div>
-          <p>Total Income: 
-            
-            <strong>
-             ${totalIncome}
-            </strong>
-            
+      <div className="otherincome__input container-fluid text-center">
+        <h2>Other Annual Incomes</h2>
+        <h3>Last chance! Please enter any other income here.</h3>
+        {incomeInputs.map((income, index) => (
+          <div key={index}>
+            <label>
+              Income {index + 1}:
+              <input
+                type="number"
+                min = "0"
+                value={income}
+                onChange={(e) => handleIncomeChange(index, e.target.value)}
+              />
+            </label>
+          </div>
+        ))}
+        <button onClick={handleAddIncome}>Add Income</button>
+        <button onClick={handleRemoveIncome}>Delete Income</button>
+        <br />
+        <label>
+          Add to current totals:
+          <input
+            type="checkbox"
+            checked={addToCurrentTotals}
+            onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
+          />
+        </label>
+        <button onClick={calculateTotalIncome}>Calculate Other Income</button>
+      </div>
+      <hr />
+      <div className="otherincome__result container-fluid text-center">
+        {totalIncome !== null && (
+          <div>
+            <p>
+              Total Income: {" "}
+              <strong>{totalIncome}</strong>
             </p>
-        </div>
-      )}
-        <button onClick={handleClearAndReset}>Clear Other Income</button>
+            <button onClick={handleClearAndReset}>Clear Other Income</button>
+          </div>
+        )}
+        <Link to="/" className="otherincome__link">Back</Link>
+      </div>
     </div>
   );
 };

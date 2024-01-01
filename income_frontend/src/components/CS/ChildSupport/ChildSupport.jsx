@@ -43,7 +43,8 @@ const ChildSupport = ({handleCalculatedIncome}) => {
 
         if (parsedChildPayments.some(isNaN) 
         || parsedChildPayments.length === 0
-        || isLumpSum.length !== parsedChildPayments.length) {
+        || isLumpSum.length !== parsedChildPayments.length
+        || parsedChildPayments.some((childPayment) => childPayment <= 0)) {
 
             setAnnualChildSupport({
                 annualChildSupport: 'Invalid Input',
@@ -134,75 +135,80 @@ const ChildSupport = ({handleCalculatedIncome}) => {
     return (
       <div className="childsupport">
         <div className="childsupport__content">
-          <h1 className="childsupport__title">Child Support: Official</h1>
-          <p className="childsupport__description">
-            For calculating Child Support payments that are court-mandated.
-          </p>
+          <div className="childsupport__input container-fluid text-center">
+            <h2 className="childsupport__title">Child Support: Official</h2>
+            <h3 className="childsupport__description">
+              For calculating Child Support payments that are court-mandated.
+            </h3>
 
-          <label>
-            Number of Children:
-            <select value={numChildren} onChange={handleNumChildrenChange}>
-              <option value="one child">One Child</option>
-              <option value="two children">Two Children</option>
-            </select>
-          </label>
+            <label>
+              Number of Children:
+              <select value={numChildren} onChange={handleNumChildrenChange}>
+                <option value="one child">One Child</option>
+                <option value="two children">Two+ Children</option>
+              </select>
+            </label>
 
-          {childPayments.map((childPayment, index) => (
-            <div key={index} className="childsupport__input-container">
+            {childPayments.map((childPayment, index) => (
+              <div key={index} className="childsupport__input-container">
+                <label>
+                  Child Support Payment #{index + 1}:
+                  <input
+                    type="number"
+                    min = "0"
+                    value={childPayment}
+                    onChange={(event) =>
+                      handleInputChange(index, event.target.value)
+                    }
+                  />
+                </label>
+                <label>
+                  Is this a lump sum payment?
+                  <input
+                    type="checkbox"
+                    checked={isLumpSum[index]}
+                    onChange={(event) =>
+                      handleLumpSumChange(index, event.target.checked)
+                    }
+                  />
+                </label>
+              </div>
+            ))}
+            <div className="childsupport__buttons-container">
+              <button
+                className="childsupport__button"
+                onClick={handleaddChildPayment}
+              >
+                Add CS Payment
+              </button>
+              <button
+                className="childsupport__button"
+                onClick={handleRemoveChildPayment}
+              >
+                Remove CS Payment
+              </button>
               <label>
-                Child Support Payment #{index + 1}:
-                <input
-                  type="number"
-                  value={childPayment}
-                  onChange={(event) =>
-                    handleInputChange(index, event.target.value)
-                  }
-                />
-              </label>
-              <label>
-                Is this a lump sum payment?
+                Add to Current Totals:
                 <input
                   type="checkbox"
-                  checked={isLumpSum[index]}
-                  onChange={(event) =>
-                    handleLumpSumChange(index, event.target.checked)
-                  }
+                  checked={addToCurrentTotals}
+                  onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
                 />
               </label>
+              <button
+                className="childsupport__button"
+                onClick={calculateAnnualChildSupport}
+              >
+                Calculate Annual Child Support
+              </button>
             </div>
-          ))}
-          <div className="childsupport__buttons-container">
-            <button
-              className="childsupport__button"
-              onClick={handleaddChildPayment}
-            >
-              Add Child Support Payment
-            </button>
-            <button
-              className="childsupport__button"
-              onClick={handleRemoveChildPayment}
-            >
-              Remove Child Support Payment
-            </button>
-            <label>
-              Add to Current Totals:
-              <input
-                type="checkbox"
-                checked={addToCurrentTotals}
-                onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
-              />
-            </label>
-            <button
-              className="childsupport__button"
-              onClick={calculateAnnualChildSupport}
-            >
-              Calculate Annual Child Support
-            </button>
           </div>
+          <hr />
+          <div className="childsupport__output container-fluid text-center">
           {annualChildSupport !== null && (
             <div className="childsupport__result-container">
               <p className="childsupport__result">
-                Annual Child Support:
+                Annual Child Support: {' '}
                 <strong>{annualChildSupport.annualChildSupport}</strong>
               </p>
               <button
@@ -214,6 +220,7 @@ const ChildSupport = ({handleCalculatedIncome}) => {
             </div>
           )}
           <Link to="/csquestion">Back</Link>
+          </ div>
         </div>
       </div>
     );

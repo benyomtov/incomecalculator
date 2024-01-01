@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './CSQuestion.css';
 
 const CSQuestion = () => {
@@ -29,9 +29,9 @@ const CSQuestion = () => {
 
   return (
     <div className="csquestion">
-      <div className="csquestion__content">
-        <h1 className="csquestion__title">Child Support</h1>
-        <p className="csquestion__description">Child Support Question</p>
+      <div className="csquestion__content container-fluid text-center">
+        <h2 className="csquestion__title">Child Support</h2>
+        <h3 className="csquestion__description">Does the applicant receive child support?</h3>
 
         {/* First question: Does the applicant receive child support? */}
         {receivesChildSupport === null && (
@@ -49,7 +49,8 @@ const CSQuestion = () => {
             <button onClick={handleUnofficialAgreementClick}>No, it's an unofficial agreement</button>
           </div>
         )}
-        
+        <hr />
+        <Link to="/">Back</Link>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Paystubs.css';
 
 const Paystubs = ({handleCalculatedIncome}) => {
@@ -44,8 +45,9 @@ const Paystubs = ({handleCalculatedIncome}) => {
 
     const handleNumOtherIncomesChange = (event) => {
         const newNumOtherIncomes = parseInt(event.target.value, 10);
-        setNumOtherIncomes(newNumOtherIncomes);
-        setOtherIncomes(Array(newNumOtherIncomes).fill(''));
+        const nonNegativeNumOtherIncomes = newNumOtherIncomes < 0 ? 0 : newNumOtherIncomes;
+        setNumOtherIncomes(nonNegativeNumOtherIncomes);
+        setOtherIncomes(Array(nonNegativeNumOtherIncomes).fill(''));
     };
 
     const calculateAnnualIncome = () => {
@@ -137,8 +139,9 @@ const Paystubs = ({handleCalculatedIncome}) => {
     return (
         <div className="paystubs">
         <div className="paystubs__content">
-            <h1 className="paystubs__title">Paystubs</h1>
-            <h2 className="paystubs__description">Calculate primary income based on paystubs</h2>
+            <div className="paystubs__inputs container-fluid text-center">
+            <h2 className="paystubs__title">Paystubs</h2>
+            <h3 className="paystubs__description">Calculate primary income based on paystubs</h3>
 
             <label>
                 Select Number of Paystubs:
@@ -188,7 +191,8 @@ const Paystubs = ({handleCalculatedIncome}) => {
                     </label>
                 </div>
             ))}
-
+            </div>
+            <div className="paystubs__output container-fluid text-center">
             <label>
                 Add to Current Totals:
                 <input type="checkbox"
@@ -199,6 +203,7 @@ const Paystubs = ({handleCalculatedIncome}) => {
 
             <button onClick={calculateAnnualIncome}>Calculate</button>
 
+            <hr />
 
             {result && (
                 <div className="paystubs__result">
@@ -219,7 +224,8 @@ const Paystubs = ({handleCalculatedIncome}) => {
 
                 
             )}
-
+            <Link to="/" className="paystubs__link">Back</Link>
+            </div>
         </div>
         </div>
     );

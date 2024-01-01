@@ -19,7 +19,7 @@ const UnofficialCS = ({handleCalculatedIncome}) => {
 
     const calculateAnnualChildSupport = () => {
 
-        if (isNaN(childSupportAmount) || !childSupportAmount) {
+        if (isNaN(childSupportAmount) || !childSupportAmount || childSupportAmount <= 0) {
 
             setAnnualChildSupport('Invalid Input');
             return;
@@ -106,44 +106,53 @@ const UnofficialCS = ({handleCalculatedIncome}) => {
     return (
       <div className="unofficialCS">
         <div className="unofficialCS__content">
-          <h1 className="unofficialCS__title">Child Support: Unofficial</h1>
-          <p className="unofficialCS__description">
-            For calculating unofficial Child Support agreements between parents.
-          </p>
-          <label>
-            Frequency:
-            <select value={frequency} onChange={handleFrequencyChange}>
-              <option value="weekly">Weekly</option>
-              <option value="biweekly">Biweekly</option>
-              <option value="monthly">Monthly</option>
-            </select>
-          </label>
-          <label>
-            Child Support Amount:
-            <input
-              type="number"
-              value={childSupportAmount}
-              onChange={handleChildSupportAmountChange}
-            />
-          </label>
-          <label>
-            Add to Current Totals:
-            <input
-              type="checkbox"
-              checked={addToCurrentTotals}
-              onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
-            />
-          </label>
-          <button onClick={calculateAnnualChildSupport}>Calculate</button>
-          {annualChildSupport !== null && (
-            <div>
-              <p>
-                Annual Child Support: <strong>{annualChildSupport}</strong>
-              </p>
-              <button onClick={handleClearAndReset}>Clear Child Support</button>
-            </div>
-          )}
-          <Link to="/csquestion">Back</Link>
+          <div className="unofficialCS__input container-fluid text-center">
+            <h2 className="unofficialCS__title">Child Support: Unofficial</h2>
+            <h3 className="unofficialCS__description">
+              For calculating unofficial Child Support agreements between
+              parents.
+            </h3>
+            <label>
+              Frequency:
+              <select value={frequency} onChange={handleFrequencyChange}>
+                <option value="weekly">Weekly</option>
+                <option value="biweekly">Biweekly</option>
+                <option value="monthly">Monthly</option>
+              </select>
+            </label>
+            <label>
+              Child Support Amount:
+              <input
+                type="number"
+                min = "0"
+                value={childSupportAmount}
+                onChange={handleChildSupportAmountChange}
+              />
+            </label>
+            <label>
+              Add to Current Totals:
+              <input
+                type="checkbox"
+                checked={addToCurrentTotals}
+                onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
+              />
+            </label>
+            <button onClick={calculateAnnualChildSupport}>Calculate</button>
+          </div>
+          <hr />
+          <div className="unofficialCS__results container-fluid text-center">
+            {annualChildSupport !== null && (
+              <div>
+                <p>
+                  Annual Child Support: <strong>{annualChildSupport}</strong>
+                </p>
+                <button onClick={handleClearAndReset}>
+                  Clear Child Support
+                </button>
+              </div>
+            )}
+            <Link to="/csquestion">Back</Link>
+          </div>
         </div>
       </div>
     );

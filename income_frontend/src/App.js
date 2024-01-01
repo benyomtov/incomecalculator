@@ -36,12 +36,12 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className="App m-3">
       <Router>
         <Navbar handleNavbarClick={handleNavbarClick} />
 
-        <div className="content-container container-fluid row">
-          <div className="left-content col-7">
+        <div className="content-container container-fluid row justify-content-center">
+          <div className="left-content col-6 border border-3 rounded">
             <Routes>
               <Route path="/*" element={<Landing />} />
               <Route path="/paystubs" element={<Paystubs handleCalculatedIncome={handleCalculatedIncome} />} />

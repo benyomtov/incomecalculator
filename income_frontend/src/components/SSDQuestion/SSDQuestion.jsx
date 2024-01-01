@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./SSDQuestion.css";
 
 const SSDQuestion = ({ handleCalculatedIncome }) => {
@@ -27,8 +27,8 @@ const SSDQuestion = ({ handleCalculatedIncome }) => {
   const calculateAnnualSSD = () => {
     const parsedSSDAmount = parseFloat(ssdAmount);
 
-    if (isNaN(parsedSSDAmount)) {
-      setAnnualSSD('Invalid Input');
+    if (isNaN(parsedSSDAmount) || !ssdAmount || parsedSSDAmount <= 0) {
+      setAnnualSSD("Invalid Input");
       return;
     }
 
@@ -65,49 +65,59 @@ const SSDQuestion = ({ handleCalculatedIncome }) => {
 
   return (
     <div className="ssd-question">
-      <h1>Social Security Disability</h1>
-      <h2>Does the applicant receive Social Security Disability?</h2>
-      {receivesSSD === null && (
-        <div className="ssd-question__buttons">
-          <button className="ssd-question__button" onClick={handleYesClick}>
-            Yes, the applicant receives SSD.
-          </button>
-          <button className="ssd-question__button" onClick={handleNoClick}>
-            No, the applicant does not receive SSD.
-          </button>
-        </div>
-      )}
-      {receivesSSD && (
-        <div className="ssd-question__ssd-amount">
-          <label>
-            Enter monthly SSD amount:
-            <input
-              type="text"
-              value={ssdAmount}
-              onChange={handleSSDAmountChange}
-            />
-          </label>
-          <label>
-            Add to Current Totals:
-            <input
-              type="checkbox"
-              checked={addToCurrentTotals}
-              onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
-            />
-          </label>
-          <button onClick={calculateAnnualSSD}>Calculate Annual SSD</button>
-        </div>
-      )}
-
-      {annualSSD !== null && (
-        <div className="ssd-question__annual-ssd">
-          <p>
-            Annual SSD:
-            <strong>${annualSSD}</strong>
-          </p>
-        </div>
-      )}
-      <button onClick={handleClearAndReset}>Clear SSD</button>
+      <div className="ssd-question__header container-fluid text-center">
+        <h2>Social Security Disability</h2>
+        <h3>Does the applicant receive Social Security Disability?</h3>
+        {receivesSSD === null && (
+          <div className="ssd-question__buttons">
+            <button className="ssd-question__button" onClick={handleYesClick}>
+              Yes, the applicant receives SSD.
+            </button>
+            <button className="ssd-question__button" onClick={handleNoClick}>
+              No, the applicant does not receive SSD.
+            </button>
+          </div>
+        )}
+      </div>
+      <div className="ssd-question__input container-fluid text-center">
+        {receivesSSD && (
+          <div className="ssd-question__ssd-amount">
+            <label>
+              Enter monthly SSD amount:
+              <input
+                type="number"
+                min = "0"
+                value={ssdAmount}
+                onChange={handleSSDAmountChange}
+              />
+            </label>
+            <label>
+              Add to Current Totals:
+              <input
+                type="checkbox"
+                checked={addToCurrentTotals}
+                onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
+              />
+            </label>
+            <button onClick={calculateAnnualSSD}>Calculate Annual SSD</button>
+          </div>
+        )}
+      </div>
+      <hr />
+      <div className="ssd-question__output container-fluid text-center">
+        {annualSSD !== null && (
+          <div className="ssd-question__annual-ssd">
+            <p>
+              Annual SSD: {" "}
+              <strong>{annualSSD}</strong>
+            </p>
+            <button onClick={handleClearAndReset}>Clear SSD</button>
+          </div>
+          
+        )}
+        <Link to="/">Back</Link>
+      </div>
+      
     </div>
   );
 };

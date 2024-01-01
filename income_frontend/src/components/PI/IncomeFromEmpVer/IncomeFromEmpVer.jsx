@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import './IncomeFromEmpVer.css';
+import { Link } from 'react-router-dom';
 
 const IncomeFromEmpVer = ({handleCalculatedIncome}) => {
   const [hourlyWage, setHourlyWage] = useState('');
@@ -8,12 +10,32 @@ const IncomeFromEmpVer = ({handleCalculatedIncome}) => {
   const [calculatedIncome, setCalculatedIncome] = useState('');
   const [addToCurrentTotals, setAddToCurrentTotals] = useState(false);
 
+  const handleHourlyWageChange = (e) => {
+    const value = Math.max(0, parseFloat(e.target.value));
+    setHourlyWage(value);
+  };
+  
+  const handleHoursPerWeekChange = (e) => {
+    const value = Math.max(0, parseFloat(e.target.value));
+    setHoursPerWeek(value);
+  };
+  
+  const handleYearlySalaryChange = (e) => {
+    const value = Math.max(0, parseFloat(e.target.value));
+    setYearlySalary(value);
+  };
+
   const calculateIncome = () => {
 
-    if (!hourlyWage || !hoursPerWeek) {
+    if (!isSalaried && (!hourlyWage || !hoursPerWeek)) {
         setCalculatedIncome('Invalid Input');
         return;
-      }
+    }
+
+    if (isSalaried && !yearlySalary) {
+        setCalculatedIncome('Invalid Input');
+        return;
+    }
 
     let income = 0;
 
@@ -62,14 +84,15 @@ const IncomeFromEmpVer = ({handleCalculatedIncome}) => {
 
   return (
     <div>
-        <h1>Income from Employer Verification Calculator</h1>
-        <h2>This calculator is used to calculate income from an employment verification letter.</h2>
+        <div className="income-from-emp-ver__input container-fluid text-center">
+        <h2>Income from Employer Verification Calculator</h2>
+        <h3>This calculator is used to calculate income from an employment verification letter.</h3>
       <label>
         Hourly Wage:
         <input
           type="number"
           value={hourlyWage}
-          onChange={(e) => setHourlyWage(e.target.value)}
+          onChange={handleHourlyWageChange}
         />
       </label>
       <br />
@@ -78,7 +101,7 @@ const IncomeFromEmpVer = ({handleCalculatedIncome}) => {
         <input
           type="number"
           value={hoursPerWeek}
-          onChange={(e) => setHoursPerWeek(e.target.value)}
+          onChange={handleHoursPerWeekChange}
         />
       </label>
       <br />
@@ -98,11 +121,12 @@ const IncomeFromEmpVer = ({handleCalculatedIncome}) => {
             <input
               type="number"
               value={yearlySalary}
-              onChange={(e) => setYearlySalary(e.target.value)}
+              onChange={handleYearlySalaryChange}
             />
           </label>
         </>
       )}
+        <br />
       <label>
         Add to Current Totals:
         <input
@@ -111,16 +135,23 @@ const IncomeFromEmpVer = ({handleCalculatedIncome}) => {
           onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
         />
       </label>
-      <br />
       <button onClick={calculateIncome}>Calculate Income</button>
-      <br />
-      <button onClick={handleClearIncome}>Clear Primary Income</button>
+      </div>
+      <hr />
+      <div className="container-fluid text-center">
       {calculatedIncome && (
-        <div>
-          <br />
-          <label>Calculated Annual Income: ${calculatedIncome}</label>
-        </div>
+          <div>
+          <label>Calculated Annual Income: {' '}
+            <strong>
+                {calculatedIncome}
+            </strong>
+          </label>
+            <br />
+          <button onClick={handleClearIncome}>Clear Primary Income</button>
+            </div>
       )}
+      <Link to="/">Back</Link>
+      </div>
     </div>
   );
 };

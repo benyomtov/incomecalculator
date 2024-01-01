@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './SelfEmployed.css';
 
 const SelfEmployed = ({handleCalculatedIncome}) => {
@@ -73,16 +74,19 @@ const SelfEmployed = ({handleCalculatedIncome}) => {
     return (
         <div className="selfemployed">
         <div className="selfemployed__content">
-            <h1 className="selfemployed__title">Self-Employed</h1>
-            <p className="selfemployed__description">Calculate Self-Employed Income</p>
+            <div className='selfemployed__input container-fluid text-center'>
+            <h2 className="selfemployed__title">Self-Employed</h2>
+            <h3 className="selfemployed__description">Calculate primary income based on Schedule C tax form</h3>
             <form onSubmit={handleNetIncomeCalculation}>
                 <label htmlFor="grossIncome">Gross Income</label>
                 <input
                     id="grossIncome"
-                    type="text"
+                    type="number"
+                    min="0"
                     value={grossIncome}
                     onChange={hadleGrossIncomeChange}
                 />
+                <br />
 
                 <label>
                     Add to Current Totals:
@@ -94,15 +98,26 @@ const SelfEmployed = ({handleCalculatedIncome}) => {
                 </label>
                 <button type="submit">Calculate</button>
             </form>
+            </div>
+            <hr />
+            <div className="selfemployed__output container-fluid text-center">
             {result && (
                 <div className="selfemployed__result">
-                    <p>Net Income: ${result.calculatedNetIncome}</p>
-                    <p>Hourly Wage: ${result.calculatedHourlyWage}</p>
-                    <p>Eligibility: {result.eligibility}</p>
+                    <p>Net Income: 
+                        <strong> {result.calculatedNetIncome}</strong>
+                    </p>
+                    <p>
+                        Hourly Wage:
+                        <strong> {result.calculatedHourlyWage}</strong>
+                    </p>
+                    <p>Eligibility:
+                        <strong> {result.eligibility}</strong>
+                    </p>
                     <button onClick={clearIncome}>Clear Income</button>
                 </div>
             )}
-
+            <Link to="/income">Back</Link>
+            </div>
         </div>
         </div>
     );
