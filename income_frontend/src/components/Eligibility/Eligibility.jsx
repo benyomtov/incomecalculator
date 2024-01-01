@@ -2,23 +2,23 @@ import React, { useState, useEffect } from 'react';
 
 const EligibilityCalculator = ({ calculatedIncome }) => {
   const [annualIncome, setAnnualIncome] = useState(
-    parseFloat(localStorage.getItem('annualIncome')) || 0
+    parseFloat(localStorage.getItem('annualIncome')) || parseFloat(0)
   );
   const [annualChildSupport, setAnnualChildSupport] = useState(
-    parseFloat(localStorage.getItem('annualChildSupport')) || 0
+    parseFloat(localStorage.getItem('annualChildSupport')) || parseFloat(0)
   );
   const [annualSSD, setAnnualSSD] = useState(
-    parseFloat(localStorage.getItem('annualSSD')) || 0
+    parseFloat(localStorage.getItem('annualSSD')) || parseFloat(0)
   );
   const [otherIncome, setOtherIncome] = useState(
-    parseFloat(localStorage.getItem('otherIncome')) || 0
+    parseFloat(localStorage.getItem('otherIncome')) || parseFloat(0)
   );
 
   useEffect(() => {
-    setAnnualIncome(calculatedIncome.primaryIncome);
-    setAnnualChildSupport(calculatedIncome.childSupport);
-    setAnnualSSD(calculatedIncome.ssd);
-    setOtherIncome(calculatedIncome.other);
+    setAnnualIncome(parseFloat(calculatedIncome.primaryIncome) || 0);
+    setAnnualChildSupport(parseFloat(calculatedIncome.childSupport) || 0);
+    setAnnualSSD(parseFloat(calculatedIncome.ssd) || 0);
+    setOtherIncome(parseFloat(calculatedIncome.other) || 0);
   }, [calculatedIncome]);
 
   const [typeOfApplication, setTypeOfApplication] = useState('Initial');
@@ -34,9 +34,9 @@ const EligibilityCalculator = ({ calculatedIncome }) => {
     const roundedTotal = Math.round(totalUnrounded * 100) / 100;
     const grandTotal = roundedTotal.toFixed(2);
     setGrandTotal(grandTotal);
-    
-    const eligibility = determineEligibilityStatus();
-    setEligibilityStatus(eligibility);
+
+    // const eligibility = determineEligibilityStatus();
+    // setEligibilityStatus(eligibility);
     
     setShowResults(true);
   };
@@ -154,6 +154,14 @@ const EligibilityCalculator = ({ calculatedIncome }) => {
       return 'Ineligible';
     }
   };
+
+  useEffect(() => {
+    if (showResults) {
+      const eligibility = determineEligibilityStatus();
+      setEligibilityStatus(eligibility);
+    }
+  }, [showResults, determineEligibilityStatus]);
+
 
   const clearResults = () => {
     setAnnualIncome(0);

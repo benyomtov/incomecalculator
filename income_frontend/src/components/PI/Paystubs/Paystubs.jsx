@@ -47,78 +47,143 @@ const Paystubs = ({handleCalculatedIncome}) => {
         setOtherIncomes(Array(newNumOtherIncomes).fill(''));
     };
 
+    // const calculateAnnualIncome = () => {
+    //     const parsedGrossIncomes = grossIncomes.map((grossIncome) => parseFloat(grossIncome));
+    //     const parsedOtherIncomes = otherIncomes.map((otherIncome) => parseFloat(otherIncome));
+
+    //     if (parsedGrossIncomes.some((isNaN) || 
+    //         parsedOtherIncomes.some(isNaN) || 
+    //         parsedGrossIncomes.length === 0)) {
+    //         setResult({
+
+    //             annualIncome: 'Invalid Input',
+    //             averageGrossIncome: 'Invalid Input',
+    //         });
+    //         return;
+    //     }
+
+    //     const averageGrossIncomeNotRounded = (parsedGrossIncomes.reduce((acc, income) => acc + income, 0) / parsedGrossIncomes.length);
+    //     const averageGrossIncomePartiallyRounded = Math.round(averageGrossIncomeNotRounded * 100) / 100;
+    //     const averageGrossIncome = averageGrossIncomePartiallyRounded.toFixed(2);
+
+    //     let annualIncomeNotRounded;
+    //     let annualIncomePartiallyRounded;
+    //     let annualIncomeRounded;
+    //     let annualIncome;
+    //     let totalOtherIncome;
+
+    //     switch (payFrequency) {
+    //         case 'monthly':
+    //             annualIncomeNotRounded = (averageGrossIncome * 12);
+    //             annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
+    //             annualIncomeRounded = annualIncomePartiallyRounded.toFixed(2);
+    //             totalOtherIncome = parsedOtherIncomes.reduce((acc, income) => acc + income, 0);
+    //             annualIncome = parseFloat(annualIncomeRounded) + parseFloat(totalOtherIncome);
+    //             break;
+    //         case 'semi-monthly':
+    //             annualIncomeNotRounded = (averageGrossIncome * 24);
+    //             annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
+    //             annualIncomeRounded = annualIncomePartiallyRounded.toFixed(2);
+    //             totalOtherIncome = parsedOtherIncomes.reduce((acc, income) => acc + income, 0);
+    //             annualIncome = parseFloat(annualIncomeRounded) + parseFloat(totalOtherIncome);
+    //             break;
+    //         case 'bi-weekly':
+    //             annualIncomeNotRounded = (averageGrossIncome * 26);
+    //             annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
+    //             annualIncomeRounded = annualIncomePartiallyRounded.toFixed(2);
+    //             totalOtherIncome = parsedOtherIncomes.reduce((acc, income) => acc + income, 0);
+    //             annualIncome = parseFloat(annualIncomeRounded) + parseFloat(totalOtherIncome);
+    //             break;
+    //         case 'weekly':
+    //             annualIncomeNotRounded = (averageGrossIncome * 52);
+    //             annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
+    //             annualIncomeRounded = annualIncomePartiallyRounded.toFixed(2);
+    //             totalOtherIncome = parsedOtherIncomes.reduce((acc, income) => acc + income, 0);
+    //             annualIncome = parseFloat(annualIncomeRounded) + parseFloat(totalOtherIncome);
+    //             break;
+    //         default:
+    //             setResult(null);
+    //             return;
+    //     }
+
+        
+    //     localStorage.setItem('annualIncome', annualIncome);
+
+    //     handleCalculatedIncome('primaryIncome', annualIncome);
+
+    //     setResult({
+    //         annualIncome,
+    //         annualIncomeRounded,
+    //         averageGrossIncome,
+    //         totalOtherIncome,
+    //     })
+
+    // };
+
     const calculateAnnualIncome = () => {
         const parsedGrossIncomes = grossIncomes.map((grossIncome) => parseFloat(grossIncome));
         const parsedOtherIncomes = otherIncomes.map((otherIncome) => parseFloat(otherIncome));
-
-        if (parsedGrossIncomes.some((isNaN) || 
-            parsedOtherIncomes.some(isNaN) || 
-            parsedGrossIncomes.length === 0)) {
-            setResult({
-
-                annualIncome: 'Invalid Input',
-                averageGrossIncome: 'Invalid Input',
-            });
-            return;
+      
+        if (
+          parsedGrossIncomes.some(isNaN) ||
+          parsedOtherIncomes.some(isNaN) ||
+          parsedGrossIncomes.length === 0
+        ) {
+          setResult({
+            annualIncome: 'Invalid Input',
+            averageGrossIncome: 'Invalid Input',
+          });
+          return;
         }
-
-        const averageGrossIncomeNotRounded = (parsedGrossIncomes.reduce((acc, income) => acc + income, 0) / parsedGrossIncomes.length);
+      
+        const averageGrossIncomeNotRounded =
+          parsedGrossIncomes.reduce((acc, income) => acc + income, 0) / parsedGrossIncomes.length;
         const averageGrossIncomePartiallyRounded = Math.round(averageGrossIncomeNotRounded * 100) / 100;
         const averageGrossIncome = averageGrossIncomePartiallyRounded.toFixed(2);
-
+      
         let annualIncomeNotRounded;
         let annualIncomePartiallyRounded;
         let annualIncomeRounded;
         let annualIncome;
         let totalOtherIncome;
-
+      
         switch (payFrequency) {
-            case 'monthly':
-                annualIncomeNotRounded = (averageGrossIncome * 12);
-                annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
-                annualIncomeRounded = annualIncomePartiallyRounded.toFixed(2);
-                totalOtherIncome = parsedOtherIncomes.reduce((acc, income) => acc + income, 0);
-                annualIncome = parseFloat(annualIncomeRounded) + parseFloat(totalOtherIncome);
-                break;
-            case 'semi-monthly':
-                annualIncomeNotRounded = (averageGrossIncome * 24);
-                annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
-                annualIncomeRounded = annualIncomePartiallyRounded.toFixed(2);
-                totalOtherIncome = parsedOtherIncomes.reduce((acc, income) => acc + income, 0);
-                annualIncome = parseFloat(annualIncomeRounded) + parseFloat(totalOtherIncome);
-                break;
-            case 'bi-weekly':
-                annualIncomeNotRounded = (averageGrossIncome * 26);
-                annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
-                annualIncomeRounded = annualIncomePartiallyRounded.toFixed(2);
-                totalOtherIncome = parsedOtherIncomes.reduce((acc, income) => acc + income, 0);
-                annualIncome = parseFloat(annualIncomeRounded) + parseFloat(totalOtherIncome);
-                break;
-            case 'weekly':
-                annualIncomeNotRounded = (averageGrossIncome * 52);
-                annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
-                annualIncomeRounded = annualIncomePartiallyRounded.toFixed(2);
-                totalOtherIncome = parsedOtherIncomes.reduce((acc, income) => acc + income, 0);
-                annualIncome = parseFloat(annualIncomeRounded) + parseFloat(totalOtherIncome);
-                break;
-            default:
-                setResult(null);
-                return;
+          case 'monthly':
+            annualIncomeNotRounded = averageGrossIncome * 12;
+            break;
+          case 'semi-monthly':
+            annualIncomeNotRounded = averageGrossIncome * 24;
+            break;
+          case 'bi-weekly':
+            annualIncomeNotRounded = averageGrossIncome * 26;
+            break;
+          case 'weekly':
+            annualIncomeNotRounded = averageGrossIncome * 52;
+            break;
+          default:
+            setResult(null);
+            return;
         }
+      
+        annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
+        annualIncomeRounded = annualIncomePartiallyRounded.toFixed(2);
+        totalOtherIncome = parsedOtherIncomes.reduce((acc, income) => acc + income, 0);
+        annualIncomeNotRounded = parseFloat(annualIncomeRounded) + parseFloat(totalOtherIncome);
+        annualIncomePartiallyRounded = Math.round(annualIncomeNotRounded * 100) / 100;
+        annualIncome = annualIncomePartiallyRounded.toFixed(2);
 
-        
-        localStorage.setItem('annualIncome', annualIncome);
-
+      
+        localStorage.setItem('annualIncome', parseFloat(annualIncome));
+      
         handleCalculatedIncome('primaryIncome', annualIncome);
-
+      
         setResult({
-            annualIncome,
-            annualIncomeRounded,
-            averageGrossIncome,
-            totalOtherIncome,
-        })
-
-    };
+          annualIncome,
+          annualIncomeRounded,
+          averageGrossIncome,
+          totalOtherIncome,
+        });
+      };      
 
     const clearIncome = () => {
         localStorage.removeItem('annualIncome');

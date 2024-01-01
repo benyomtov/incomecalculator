@@ -37,7 +37,7 @@ const UnofficialCS = ({handleCalculatedIncome}) => {
                 const annualChildSupportPartiallyRounded = Math.round(annualChildSupportNotRounded * 100) / 100;
                 let annualChildSupport = annualChildSupportPartiallyRounded.toFixed(2);
                 setAnnualChildSupport(annualChildSupport);
-                handleCalculatedIncome(annualChildSupport);
+                handleCalculatedIncome('childSupport', annualChildSupport);
                 localStorage.setItem('annualChildSupport', annualChildSupport);
                 break;
             case 'biweekly':
@@ -48,7 +48,7 @@ const UnofficialCS = ({handleCalculatedIncome}) => {
                 const annualChildSupportPartiallyRounded2 = Math.round(annualChildSupportNotRounded2 * 100) / 100;
                 let annualChildSupport2 = annualChildSupportPartiallyRounded2.toFixed(2);
                 setAnnualChildSupport(annualChildSupport2);
-                handleCalculatedIncome(annualChildSupport2);
+                handleCalculatedIncome('childSupport', annualChildSupport2);
                 localStorage.setItem('annualChildSupport', annualChildSupport2);
                 break;
             case 'monthly':
