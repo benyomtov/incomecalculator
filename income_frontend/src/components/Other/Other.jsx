@@ -68,46 +68,67 @@ const OtherIncomes = ({handleCalculatedIncome}) => {
   return (
     <div>
       <div className="otherincome__input container-fluid text-center">
-        <h2>Other Annual Incomes</h2>
-        <h3>Last chance! Please enter any other income here.</h3>
-        {incomeInputs.map((income, index) => (
-          <div key={index}>
-            <label>
-              Income {index + 1}:
-              <input
-                type="number"
-                min = "0"
-                value={income}
-                onChange={(e) => handleIncomeChange(index, e.target.value)}
-              />
-            </label>
-          </div>
-        ))}
-        <button onClick={handleAddIncome}>Add Income</button>
-        <button onClick={handleRemoveIncome}>Delete Income</button>
+        <h2 className="fs-1 fw-bold">Other Annual Incomes</h2>
+        <h3 className="fs-2 fw-semibold mb-3">
+          Last chance! Please enter any other income here.
+        </h3>
+        <div className="border border-2 rounded p-2 mb-3">
+          {incomeInputs.map((income, index) => (
+            <div key={index}>
+              <label
+              className="fs-4 fw-semibold mb-3"
+              >
+                Income {index + 1}:
+                <input
+                  type="number"
+                  min="0"
+                  value={income}
+                  onChange={(e) => handleIncomeChange(index, e.target.value)}
+                />
+              </label>
+            </div>
+          ))}
+          <button 
+          className="btn btn-light border border-3 border-success-subtle btn-lg me-3 mb-3"
+          onClick={handleAddIncome}>Add Income</button>
+          <button 
+          className="btn btn-light border border-3 border-danger btn-lg me-3 mb-3"
+          onClick={handleRemoveIncome}>Delete Income</button>
+        </div>
         <br />
-        <label>
-          Add to current totals:
+        <label
+        className="fs-4 fw-semibold"
+        >
+          Add to current totals: {' '}
           <input
             type="checkbox"
             checked={addToCurrentTotals}
             onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
           />
         </label>
-        <button onClick={calculateTotalIncome}>Calculate Other Income</button>
+        <button 
+        className="btn btn-primary border border-dark btn-lg ms-3"
+        onClick={calculateTotalIncome}>Calculate Other Income</button>
       </div>
       <hr />
       <div className="otherincome__result container-fluid text-center">
         {totalIncome !== null && (
           <div>
-            <p>
-              Total Income: {" "}
-              <strong>{totalIncome}</strong>
+            <p
+            className="fs-5 mb-3"
+            >
+              Total Income: <strong>{totalIncome}</strong>
             </p>
-            <button onClick={handleClearAndReset}>Clear Other Income</button>
+            <button 
+            className = "btn btn-danger btn-lg mb-3"
+            onClick={handleClearAndReset}>Clear Other Income</button>
           </div>
         )}
-        <Link to="/" className="otherincome__link">Back</Link>
+        <Link to="/" 
+        className="btn btn-dark border border-secondary border-4 fs-5"
+        >
+          Back
+        </Link>
       </div>
     </div>
   );

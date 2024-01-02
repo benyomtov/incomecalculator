@@ -66,14 +66,18 @@ const SSDQuestion = ({ handleCalculatedIncome }) => {
   return (
     <div className="ssd-question">
       <div className="ssd-question__header container-fluid text-center">
-        <h2>Social Security Disability</h2>
-        <h3>Does the applicant receive Social Security Disability?</h3>
+        <h2
+        className="fs-1 fw-bold"
+        >Social Security Disability</h2>
+        <h3
+        className="fw-normal mb-3"
+        >Does the applicant receive Social Security Disability?</h3>
         {receivesSSD === null && (
           <div className="ssd-question__buttons">
-            <button className="ssd-question__button" onClick={handleYesClick}>
+            <button className="ssd-question__button btn btn-light border border-4 border-primary-subtle fw-bold fs-5 mb-3" onClick={handleYesClick}>
               Yes, the applicant receives SSD.
             </button>
-            <button className="ssd-question__button" onClick={handleNoClick}>
+            <button className="ssd-question__button btn btn-light border border-4 border-primary-subtle fw-bold fs-5 mb-3" onClick={handleNoClick}>
               No, the applicant does not receive SSD.
             </button>
           </div>
@@ -81,8 +85,10 @@ const SSDQuestion = ({ handleCalculatedIncome }) => {
       </div>
       <div className="ssd-question__input container-fluid text-center">
         {receivesSSD && (
-          <div className="ssd-question__ssd-amount">
-            <label>
+          <div className="ssd-question__ssd-amount border border-2 rounded p-2 mb-3">
+            <label
+            className="fs-4 fw-semibold mb-3"
+            >
               Enter monthly SSD amount:
               <input
                 type="number"
@@ -91,15 +97,19 @@ const SSDQuestion = ({ handleCalculatedIncome }) => {
                 onChange={handleSSDAmountChange}
               />
             </label>
-            <label>
-              Add to Current Totals:
+            <label
+            className="fs-4 fw-semibold"
+            >
+              Add to Current Totals: {" "}
               <input
                 type="checkbox"
                 checked={addToCurrentTotals}
                 onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
               />
             </label>
-            <button onClick={calculateAnnualSSD}>Calculate Annual SSD</button>
+            <button 
+            className="btn btn-primary border border-dark btn-lg ms-3"
+            onClick={calculateAnnualSSD}>Calculate Annual SSD</button>
           </div>
         )}
       </div>
@@ -107,15 +117,21 @@ const SSDQuestion = ({ handleCalculatedIncome }) => {
       <div className="ssd-question__output container-fluid text-center">
         {annualSSD !== null && (
           <div className="ssd-question__annual-ssd">
-            <p>
+            <p
+            className="fs-5 mb-3"
+            >
               Annual SSD: {" "}
               <strong>{annualSSD}</strong>
             </p>
-            <button onClick={handleClearAndReset}>Clear SSD</button>
+            <button 
+            className = "btn btn-danger btn-lg mb-3"
+            onClick={handleClearAndReset}>Clear SSD</button>
           </div>
           
         )}
-        <Link to="/">Back</Link>
+        <Link 
+        className="paystubs__link btn btn-dark border border-secondary border-4 fs-5"
+        to="/">Back</Link>
       </div>
       
     </div>

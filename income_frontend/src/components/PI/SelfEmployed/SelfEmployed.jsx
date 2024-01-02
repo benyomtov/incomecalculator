@@ -72,54 +72,85 @@ const SelfEmployed = ({handleCalculatedIncome}) => {
       };
 
     return (
-        <div className="selfemployed">
+      <div className="selfemployed">
         <div className="selfemployed__content">
-            <div className='selfemployed__input container-fluid text-center'>
-            <h2 className="selfemployed__title">Self-Employed</h2>
-            <h3 className="selfemployed__description">Calculate primary income based on Schedule C tax form</h3>
+          <div className="selfemployed__input container-fluid text-center">
+            <h2
+              className="selfemployed__title fs-1 fw-bold
+            "
+            >
+              Self-Employed
+            </h2>
+            <h3
+              className="selfemployed__description fs-2 fw-semibold mb-3
+            "
+            >
+              Calculate primary income based on Schedule C tax form
+            </h3>
             <form onSubmit={handleNetIncomeCalculation}>
-                <label htmlFor="grossIncome">Gross Income</label>
+              <div className="border border-2 rounded p-2 mb-3">
+                <label htmlFor="grossIncome"
+                className="form-label fs-4 fw-semibold pt-2 mb-3"
+                >Gross Income</label>
                 <input
-                    id="grossIncome"
-                    type="number"
-                    min="0"
-                    value={grossIncome}
-                    onChange={hadleGrossIncomeChange}
+                  id="grossIncome"
+                    className="fs-4"
+                  type="number"
+                  min="0"
+                  value={grossIncome}
+                  onChange={hadleGrossIncomeChange}
                 />
-                <br />
+              </div>
+              <br />
 
-                <label>
-                    Add to Current Totals:
-                    <input
-                        type="checkbox"
-                        checked={addToCurrentTotals}
-                        onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
-                    />
-                </label>
-                <button type="submit">Calculate</button>
+              <label
+                className = "paystubs__label fs-4 fw-semibold"
+              >
+                Add to Current Totals: {' '}
+                <input
+                  type="checkbox"
+                  checked={addToCurrentTotals}
+                  onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
+                />
+              </label>
+              <button type="submit"
+              className="btn btn-primary border border-dark btn-lg ms-3"
+              >Calculate</button>
             </form>
-            </div>
-            <hr />
-            <div className="selfemployed__output container-fluid text-center">
+          </div>
+          <hr />
+          <div className="selfemployed__output container-fluid text-center">
             {result && (
-                <div className="selfemployed__result">
-                    <p>Net Income: 
-                        <strong> {result.calculatedNetIncome}</strong>
-                    </p>
-                    <p>
-                        Hourly Wage:
-                        <strong> {result.calculatedHourlyWage}</strong>
-                    </p>
-                    <p>Eligibility:
-                        <strong> {result.eligibility}</strong>
-                    </p>
-                    <button onClick={clearIncome}>Clear Income</button>
-                </div>
+              <div className="selfemployed__result">
+                <p
+                className = "paystubs__label fs-5 mb-3"
+                >
+                  Net Income:
+                  <strong> {result.calculatedNetIncome}</strong>
+                </p>
+                <p
+                className = "paystubs__label fs-5 mb-3"
+                >
+                  Hourly Wage:
+                  <strong> {result.calculatedHourlyWage}</strong>
+                </p>
+                <p
+                className = "paystubs__label fs-5 mb-3"
+                >
+                  Eligibility:
+                  <strong> {result.eligibility}</strong>
+                </p>
+                <button onClick={clearIncome}
+                className = "btn btn-danger btn-lg mb-3"
+                >Clear Income</button>
+              </div>
             )}
-            <Link to="/income">Back</Link>
-            </div>
+            <Link to="/income"
+            className="paystubs__link btn btn-dark border border-secondary border-4 fs-5"
+            >Back</Link>
+          </div>
         </div>
-        </div>
+      </div>
     );
     }
 

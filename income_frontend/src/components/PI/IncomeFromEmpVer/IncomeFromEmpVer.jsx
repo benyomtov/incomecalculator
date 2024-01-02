@@ -84,73 +84,86 @@ const IncomeFromEmpVer = ({handleCalculatedIncome}) => {
 
   return (
     <div>
-        <div className="income-from-emp-ver__input container-fluid text-center">
-        <h2>Income from Employer Verification Calculator</h2>
-        <h3>This calculator is used to calculate income from an employment verification letter.</h3>
-      <label>
-        Hourly Wage:
-        <input
-          type="number"
-          value={hourlyWage}
-          onChange={handleHourlyWageChange}
-        />
-      </label>
-      <br />
-      <label>
-        Hours per Week:
-        <input
-          type="number"
-          value={hoursPerWeek}
-          onChange={handleHoursPerWeekChange}
-        />
-      </label>
-      <br />
-      <label>
-        Calculate Income Based on Yearly Salary:
-        <input
-          type="checkbox"
-          checked={isSalaried}
-          onChange={() => setIsSalaried(!isSalaried)}
-        />
-      </label>
-      {isSalaried && (
-        <>
-          <br />
-          <label>
-            Enter Yearly Salary Here:
+      <div className="income-from-emp-ver__input container-fluid text-center">
+        <h2 className="income-from-emp-ver__header fs-1 fw-bold">
+          Income from Employment Verification Calculator
+        </h2>
+        <h3 className="income-from-emp-ver__subheader fs-2 fw-semibold mb-3">
+          This calculator is used to calculate income from an employment
+          verification letter.
+        </h3>
+        <div className="border border-2 rounded p-2 mb-3">
+          <label className="fs-4 fw-semibold mb-3">
+            Hourly Wage:
             <input
               type="number"
-              value={yearlySalary}
-              onChange={handleYearlySalaryChange}
+              value={hourlyWage}
+              onChange={handleHourlyWageChange}
             />
           </label>
-        </>
-      )}
+          <br />
+          <label className="fs-4 fw-semibold mb-3">
+            Hours per Week:
+            <input
+              type="number"
+              value={hoursPerWeek}
+              onChange={handleHoursPerWeekChange}
+            />
+          </label>
+          <br />
+          <label className = "fs-5 fw-normal mb-3">
+            Calculate Income Based on Yearly Salary: {' '}
+            <input
+              type="checkbox"
+              checked={isSalaried}
+              onChange={() => setIsSalaried(!isSalaried)}
+            />
+          </label>
+          {isSalaried && (
+            <>
+              <br />
+              <label className="fs-4 fw-semibold mb-3">
+                Enter Yearly Salary Here:
+                <input
+                  type="number"
+                  value={yearlySalary}
+                  onChange={handleYearlySalaryChange}
+                />
+              </label>
+            </>
+          )}
+        </div>
         <br />
-      <label>
-        Add to Current Totals:
-        <input
-          type="checkbox"
-          checked={addToCurrentTotals}
-          onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
-        />
-      </label>
-      <button onClick={calculateIncome}>Calculate Income</button>
+        <label className="fs-4 fw-semibold" >
+          Add to Current Totals: {' '}
+          <input 
+            type="checkbox"
+            checked={addToCurrentTotals}
+            onChange={() => setAddToCurrentTotals(!addToCurrentTotals)}
+          />
+        </label>
+        <button 
+        className="btn btn-primary border border-dark btn-lg ms-3"
+        onClick={calculateIncome}>Calculate Income</button>
       </div>
       <hr />
       <div className="container-fluid text-center">
-      {calculatedIncome && (
+        {calculatedIncome && (
           <div>
-          <label>Calculated Annual Income: {' '}
-            <strong>
-                {calculatedIncome}
-            </strong>
-          </label>
+            <label
+            className="fs-4 mb-3"
+            >
+              Calculated Annual Income: <strong>{calculatedIncome}</strong>
+            </label>
             <br />
-          <button onClick={handleClearIncome}>Clear Primary Income</button>
-            </div>
-      )}
-      <Link to="/">Back</Link>
+            <button 
+            className = "btn btn-danger btn-lg mb-3"
+            onClick={handleClearIncome}>Clear Primary Income</button>
+          </div>
+        )}
+        <Link to="/"
+        className="paystubs__link btn btn-dark border border-secondary border-4 fs-5"
+        >Back</Link>
       </div>
     </div>
   );

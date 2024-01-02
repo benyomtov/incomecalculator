@@ -179,55 +179,65 @@ const EligibilityCalculator = ({ calculatedIncome }) => {
   };
 
   return (
-    <div className="border border-3 p-2 rounded">
+    <div className="border border-3 p-2 rounded border-primary-subtle">
       <div className="eligibility__input container-fluid text-center">
-        <h2>Eligibility</h2>
-        <h3>Current Totals</h3>
-        <p>
-          Annual Income: <strong>{annualIncome}</strong>
-        </p>
-        <p>
-          Annual Child Support: <strong>{annualChildSupport}</strong>
-        </p>
-        <p>
-          Annual SSD: <strong>{annualSSD}</strong>
-        </p>
-        <p>
-          Other Income: <strong>{otherIncome}</strong>
-        </p>
+        <h2 className="fs-1 fw-bold">Eligibility</h2>
+        <div
+        className="border border-2 p-2 rounded mb-3"
+        >
+          <h3 className="fs-2 fw-bold">Current Totals</h3>
+          <p className="fs-5 fw-semibold">
+            Annual Income:{" "}
+            <strong className="fs-5 fw-bold">{annualIncome}</strong>
+          </p>
+          <p className="fs-5 fw-semibold">
+            Annual Child Support:{" "}
+            <strong className="fs-5 fw-bold">{annualChildSupport}</strong>
+          </p>
+          <p className="fs-5 fw-semibold">
+            Annual SSD: <strong className="fs-5 fw-bold">{annualSSD}</strong>
+          </p>
+          <p className="fs-5 fw-semibold">
+            Other Income:{" "}
+            <strong className="fs-5 fw-bold">{otherIncome}</strong>
+          </p>
+        </div>
+        <div className="border border-2 p-2 rounded mb-3">
+          <label className="fs-5 me-2">
+            <strong className="fs-5 fw-semibold">Type of Application:</strong>
+            <select
+              value={typeOfApplication}
+              onChange={(e) => setTypeOfApplication(e.target.value)}
+            >
+              <option value="Initial">Initial Application</option>
+              <option value="Redetermination">Redetermination</option>
+            </select>
+          </label>
 
-        <label>
-          Type of Application:
-          <select
-            value={typeOfApplication}
-            onChange={(e) => setTypeOfApplication(e.target.value)}
-          >
-            <option value="Initial">Initial Application</option>
-            <option value="Redetermination">Redetermination</option>
-          </select>
-        </label>
+          <label className="fs-5">
+            <strong className="fs-5 fw-semibold">Family Size:</strong>
+            <select
+              value={familySize}
+              onChange={(e) => setFamilySize(parseInt(e.target.value))}
+            >
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((size) => (
+                <option key={size} value={size}>
+                  {size}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
 
-        <label>
-          Family Size:
-          <select
-            value={familySize}
-            onChange={(e) => setFamilySize(parseInt(e.target.value))}
-          >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((size) => (
-              <option key={size} value={size}>
-                {size}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <button onClick={calculateTotal}>
-          <strong>
+        <button className="btn btn-success" onClick={calculateTotal}>
+          <strong className="fs-3">
             Calculate Total Income and Determine Eligibility Status
           </strong>
         </button>
 
-        <button onClick={clearResults}>Clear Results</button>
+        <button className="fs-5 btn btn-danger" onClick={clearResults}>
+          Clear Results
+        </button>
       </div>
 
       <hr />
@@ -235,13 +245,13 @@ const EligibilityCalculator = ({ calculatedIncome }) => {
       <div className="eligibility__output container-fluid text-center">
         {showResults && (
           <div>
-            <p>
+            <p className="fs-5">
               Grand Total:
-              <strong> {grandTotal}</strong>
+              <strong className="fs-4"> {grandTotal}</strong>
             </p>
-            <p>
+            <p className="fs-5">
               Eligibility Status:
-              <strong> {eligibilityStatus}</strong>
+              <strong className="fs-4"> {eligibilityStatus}</strong>
             </p>
           </div>
         )}

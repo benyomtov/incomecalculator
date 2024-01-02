@@ -136,59 +136,70 @@ const ChildSupport = ({handleCalculatedIncome}) => {
       <div className="childsupport">
         <div className="childsupport__content">
           <div className="childsupport__input container-fluid text-center">
-            <h2 className="childsupport__title">Child Support: Official</h2>
-            <h3 className="childsupport__description">
+            <h2 className="childsupport__title fs-1 fw-bold">
+              Child Support: Official
+            </h2>
+            <h3 className="childsupport__description fs-2 fw-semibold mb-3">
               For calculating Child Support payments that are court-mandated.
             </h3>
+            <div className="border border-2 rounded p-2 mb-3">
+              <label
+              className="fs-4 fw-semibold mb-3"
+              >
+                Number of Children:
+                <select value={numChildren} onChange={handleNumChildrenChange}>
+                  <option value="one child">One Child</option>
+                  <option value="two children">Two+ Children</option>
+                </select>
+              </label>
 
-            <label>
-              Number of Children:
-              <select value={numChildren} onChange={handleNumChildrenChange}>
-                <option value="one child">One Child</option>
-                <option value="two children">Two+ Children</option>
-              </select>
-            </label>
-
-            {childPayments.map((childPayment, index) => (
-              <div key={index} className="childsupport__input-container">
-                <label>
-                  Child Support Payment #{index + 1}:
-                  <input
-                    type="number"
-                    min = "0"
-                    value={childPayment}
-                    onChange={(event) =>
-                      handleInputChange(index, event.target.value)
-                    }
-                  />
-                </label>
-                <label>
-                  Is this a lump sum payment?
-                  <input
-                    type="checkbox"
-                    checked={isLumpSum[index]}
-                    onChange={(event) =>
-                      handleLumpSumChange(index, event.target.checked)
-                    }
-                  />
-                </label>
+              {childPayments.map((childPayment, index) => (
+                <div key={index} className="childsupport__input-container">
+                  <label
+                  className="fs-5 fw-bold mb-1"
+                  >
+                    Child Support Payment #{index + 1}:
+                    <input
+                      type="number"
+                      min="0"
+                      value={childPayment}
+                      onChange={(event) =>
+                        handleInputChange(index, event.target.value)
+                      }
+                    />
+                  </label>
+                  <label
+                  className="childsupport__checkbox fw-normal fs-4 mb-3"
+                  >
+                    Is this a lump sum payment?
+                    <input
+                      type="checkbox"
+                      checked={isLumpSum[index]}
+                      onChange={(event) =>
+                        handleLumpSumChange(index, event.target.checked)
+                      }
+                    />
+                  </label>
+                </div>
+              ))}
+              <div className="childsupport__buttons-container">
+                <button
+                  className="childsupport__button btn btn-light border border-3 border-success-subtle btn-lg me-3 mb-3"
+                  onClick={handleaddChildPayment}
+                >
+                  Add CS Payment
+                </button>
+                <button
+                  className="childsupport__button btn btn-light border border-3 border-danger btn-lg mb-3"
+                  onClick={handleRemoveChildPayment}
+                >
+                  Remove CS Payment
+                </button>
               </div>
-            ))}
-            <div className="childsupport__buttons-container">
-              <button
-                className="childsupport__button"
-                onClick={handleaddChildPayment}
+              <label
+              className="fs-4 fw-semibold"
               >
-                Add CS Payment
-              </button>
-              <button
-                className="childsupport__button"
-                onClick={handleRemoveChildPayment}
-              >
-                Remove CS Payment
-              </button>
-              <label>
-                Add to Current Totals:
+                Add to Current Totals: {' '}
                 <input
                   type="checkbox"
                   checked={addToCurrentTotals}
@@ -196,7 +207,7 @@ const ChildSupport = ({handleCalculatedIncome}) => {
                 />
               </label>
               <button
-                className="childsupport__button"
+                className="btn btn-primary border border-dark btn-lg ms-3"
                 onClick={calculateAnnualChildSupport}
               >
                 Calculate Annual Child Support
@@ -205,22 +216,24 @@ const ChildSupport = ({handleCalculatedIncome}) => {
           </div>
           <hr />
           <div className="childsupport__output container-fluid text-center">
-          {annualChildSupport !== null && (
-            <div className="childsupport__result-container">
-              <p className="childsupport__result">
-                Annual Child Support: {' '}
-                <strong>{annualChildSupport.annualChildSupport}</strong>
-              </p>
-              <button
-                className="childsupport__button"
-                onClick={handleClearAndReset}
-              >
-                Clear Child Support
-              </button>
-            </div>
-          )}
-          <Link to="/csquestion">Back</Link>
-          </ div>
+            {annualChildSupport !== null && (
+              <div className="childsupport__result-container">
+                <p className="childsupport__result fs-5 mb-3">
+                  Annual Child Support:{" "}
+                  <strong>{annualChildSupport.annualChildSupport}</strong>
+                </p>
+                <button
+                  className = "btn btn-danger btn-lg mb-3"
+                  onClick={handleClearAndReset}
+                >
+                  Clear Child Support
+                </button>
+              </div>
+            )}
+            <Link to="/csquestion"
+            className="btn btn-dark border border-secondary border-4 fs-5"
+            >Back</Link>
+          </div>
         </div>
       </div>
     );

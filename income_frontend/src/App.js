@@ -41,7 +41,7 @@ function App() {
         <Navbar handleNavbarClick={handleNavbarClick} />
 
         <div className="content-container container-fluid row justify-content-center">
-          <div className="left-content col-6 border border-3 rounded">
+          <div className="left-content col-6 border border-3 rounded border-primary-subtle p-2">
             <Routes>
               <Route path="/*" element={<Landing />} />
               <Route path="/paystubs" element={<Paystubs handleCalculatedIncome={handleCalculatedIncome} />} />

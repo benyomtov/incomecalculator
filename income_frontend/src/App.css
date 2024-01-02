@@ -28,3 +28,21 @@ select {
     border-radius: 5px;
     margin: 5px;
 }
+
+input[type="checkbox"] {
+    /* Increase the size of the checkbox */
+    width: 27px;
+    height: 27px;
+    /* Add a border to the checkbox */
+    border: 2px solid #000; /* You can customize the border color */
+    /* Optional: Add some padding to give space around the checkbox */
+    padding: 5px;
+    position: relative;
+    top: 7px;
+  }
+  
+  /* Apply additional styles when the checkbox is checked */
+  input[type="checkbox"]:checked {
+    background-color: #00f; /* Change the background color when checked */
+    /* You can add more styles for the checked state */
+  }

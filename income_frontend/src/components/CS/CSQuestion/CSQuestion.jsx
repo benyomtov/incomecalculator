@@ -30,27 +30,42 @@ const CSQuestion = () => {
   return (
     <div className="csquestion">
       <div className="csquestion__content container-fluid text-center">
-        <h2 className="csquestion__title">Child Support</h2>
-        <h3 className="csquestion__description">Does the applicant receive child support?</h3>
+        <h2 className="csquestion__title fs-1 fw-bold
+        
+        ">Child Support</h2>
+        <h3 className="csquestion__description fw-normal mb-3
+        ">Does the applicant receive child support?</h3>
 
         {/* First question: Does the applicant receive child support? */}
         {receivesChildSupport === null && (
           <div>
-            <button onClick={handleYesClick}>Yes, the applicant receives child support</button>
-            <button onClick={handleNoClick}>No, the applicant does not receive child support</button>
+            <button 
+            className="btn-light border border-4 border-primary-subtle fw-bold fs-5 mb-3"
+            onClick={handleYesClick}>Yes, the applicant receives child support</button>
+            <button
+            className="btn-light border border-4 border-primary-subtle fw-bold fs-5 mb-3"
+            onClick={handleNoClick}>No, the applicant does not receive child support</button>
           </div>
         )}
 
         {/* Second question: If yes, is the child support through a legal agreement? */}
         {receivesChildSupport && (
           <div>
-            <p>Is the child support through a legal agreement?</p>
-            <button onClick={handleLegalAgreementClick}>Yes, it's a legal agreement</button>
-            <button onClick={handleUnofficialAgreementClick}>No, it's an unofficial agreement</button>
+            <p
+            className="fs-4 fw-light mb-3"
+            >Is the child support through a legal agreement?</p>
+            <button 
+             className="btn-light border border-4 border-primary-subtle fw-bold fs-5 mb-3"
+            onClick={handleLegalAgreementClick}>Yes, it's a legal agreement</button>
+            <button 
+             className="btn-light border border-4 border-primary-subtle fw-bold fs-5 mb-3"
+            onClick={handleUnofficialAgreementClick}>No, it's an unofficial agreement</button>
           </div>
         )}
         <hr />
-        <Link to="/">Back</Link>
+        <Link to="/"
+        className="paystubs__link btn btn-dark border border-secondary border-4 fs-5"
+        >Back</Link>
       </div>
     </div>
   );
