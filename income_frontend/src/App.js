@@ -56,7 +56,7 @@ function App() {
           </div>
           
           <div className="right-content col-5">
-            <Eligibility calculatedIncome={calculatedIncome} />
+            <Eligibility calculatedIncome={calculatedIncome} setCalculatedIncome={setCalculatedIncome} />
           </div>
         </div>
       </Router>

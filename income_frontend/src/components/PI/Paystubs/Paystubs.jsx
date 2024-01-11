@@ -47,7 +47,9 @@ const Paystubs = ({ handleCalculatedIncome }) => {
   const handleNumOtherIncomesChange = (event) => {
     // Get the input value and default to 0 if blank or not a valid number
     const inputValue = event.target.value.trim();
-    const newNumOtherIncomes = parseInt(inputValue, 10) || 0;
+    const inPutValueRounded = Math.round(inputValue * 100) / 100;
+    const inputValueFixed = inPutValueRounded.toFixed(2);
+    const newNumOtherIncomes = parseInt(inputValueFixed, 10) || 0;
 
     // Ensure the number of other incomes is non-negative
     const nonNegativeNumOtherIncomes =

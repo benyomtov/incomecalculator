@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const EligibilityCalculator = ({ calculatedIncome }) => {
+const EligibilityCalculator = ({ calculatedIncome, setCalculatedIncome }) => {
   const [annualIncome, setAnnualIncome] = useState(
     parseFloat(localStorage.getItem("annualIncome")) || parseFloat(0)
   );
@@ -163,6 +163,18 @@ const EligibilityCalculator = ({ calculatedIncome }) => {
     }
   }, [showResults, determineEligibilityStatus]);
 
+  useEffect(() => {
+    const storedAnnualIncome = parseFloat(localStorage.getItem("annualIncome"));
+    const storedChildSupport = parseFloat(localStorage.getItem("annualChildSupport"));
+    const storedSSD = parseFloat(localStorage.getItem("annualSSD"));
+    const storedOtherIncome = parseFloat(localStorage.getItem("otherIncome"));
+  
+    setAnnualIncome(isNaN(storedAnnualIncome) ? 0 : storedAnnualIncome);
+    setAnnualChildSupport(isNaN(storedChildSupport) ? 0 : storedChildSupport);
+    setAnnualSSD(isNaN(storedSSD) ? 0 : storedSSD);
+    setOtherIncome(isNaN(storedOtherIncome) ? 0 : storedOtherIncome);
+  }, []);
+
   const clearResults = () => {
     setAnnualIncome(0);
     setAnnualChildSupport(0);
@@ -176,6 +188,17 @@ const EligibilityCalculator = ({ calculatedIncome }) => {
 
     // Clear local storage
     localStorage.clear();
+    localStorage.removeItem("annualIncome");
+    localStorage.removeItem("annualChildSupport");
+    localStorage.removeItem("annualSSD");
+    localStorage.removeItem("otherIncome");
+
+    setCalculatedIncome({
+      primaryIncome: 0,
+      childSupport: 0,
+      ssd: 0,
+      other: 0,
+    });
   };
 
   return (
