@@ -142,8 +142,10 @@ const Paystubs = ({ handleCalculatedIncome }) => {
       const currentAnnualIncomeParsed = parseFloat(currentAnnualIncome);
       const newAnnualIncome =
         currentAnnualIncomeParsed + parseFloat(annualIncome);
-      localStorage.setItem("annualIncome", newAnnualIncome);
-      handleCalculatedIncome("primaryIncome", newAnnualIncome);
+      const newAnnualIncomePartiallyRounded = Math.round(newAnnualIncome * 100) / 100;
+      const newAnnualIncomeRounded = newAnnualIncomePartiallyRounded.toFixed(2);
+      localStorage.setItem("annualIncome", newAnnualIncomeRounded);
+      handleCalculatedIncome("primaryIncome", newAnnualIncomeRounded);
     } else {
       localStorage.setItem("annualIncome", annualIncome);
       handleCalculatedIncome("primaryIncome", annualIncome);
